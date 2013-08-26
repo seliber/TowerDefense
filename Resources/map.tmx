@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="test" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="Z:/Users/mxm/Pictures/battle.jpg" width="480" height="242"/>
+ </tileset>
+ <objectgroup name="Objects" width="50" height="50">
+  <object name="SpawnPoint" gid="43" x="0" y="38"/>
+ </objectgroup>
+ <layer name="Background" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzkEJADAMALFzUP9up6JQRh75p2pgUQcOAAAAAAAAAADA/x6JWpJf
+  </data>
+ </layer>
+</map>
