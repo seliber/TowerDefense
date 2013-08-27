@@ -12,7 +12,7 @@ void CAttackAi::Update( float dt, ITDObject* pObject )
 bool CAttackAi::DoAi( void* param )
 {
 	ITDObject* pObject = (ITDObject*)param;
-	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 0, pObject->getPosition(), 0 );
+	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 100, pObject->getPosition(), 50 );
 	if ( bCanAttack )
 	{
 		ITDGod::GetSingletonPtr()->Remove( pObject->getType(), pObject->getID() );

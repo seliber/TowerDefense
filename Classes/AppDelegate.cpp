@@ -73,36 +73,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	pDirector->setAnimationInterval(1.0 / 60);
 
 	// create a scene. it's an autorelease object
-/*	CCScene *pScene = HelloWorld::scene();*/
-	pMgr->add( "Hello","Hello" );
-	pMgr->add( "Finish","Finish" );
-	pMgr->add( "Begin","Begin" );	// run
-	
-	weak_ptr<CCScene> pScene;
-	pMgr->get( "Begin", pScene );
-	shared_ptr<CCScene> ptr = pScene.lock();
-	if ( ptr )
-	{
-		pDirector->runWithScene(ptr.get());
-	}
-	
-	weak_ptr<CCScene> pScene1;
-	pMgr->get( "Hello", pScene );
-	shared_ptr<CCScene> ptr1 = pScene.lock();
-	if ( ptr1 )
-	{
-		CCScene* pScene2 = ptr1.get();
-		pDirector->pushScene( pScene2 );
-	}
 
-	//this->schedule( schedule_selector(HelloWorld::update), 0);
+	pDirector->runWithScene( CBegin::scene() );
 
-// 	pScene = CBegin::scene();
-// 	
-// 
-// 
-// 	//CCTransitionFadeTR* transition =CCTransitionFadeTR::create(3.0, pScene);
-// 	pDirector->pushScene( pScene );
 
 	return true;
 }

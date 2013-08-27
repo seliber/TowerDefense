@@ -16,12 +16,9 @@ public:
 	static cocos2d::CCScene* scene();
 
 	// a selector callback
-	void menuCloseCallbackUp(CCObject* pSender);
-	void menuCloseCallbackDown(CCObject* pSender);
-	void menuCloseCallbackLeft(CCObject* pSender);
-	void menuCloseCallbackRigt(CCObject* pSender);
-	void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
 	void update( float ct );
 

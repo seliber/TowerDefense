@@ -13,6 +13,9 @@
       <UniqueIdentifier>{9f2a1533-0fd6-4718-ad3a-832d727ef6b5}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
     </Filter>
+    <Filter Include="include\core">
+      <UniqueIdentifier>{76b4ec8d-f2ce-4322-9b5b-f49a7479b288}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\TowerDefense.ico">
@@ -43,69 +46,78 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\actionmgr.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ai.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\aimgr.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\beginscene.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\constdef.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\FinishSes.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\god.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\interfacedef.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\map.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenemgr.h">
-      <Filter>include</Filter>
+    <ClInclude Include="..\Classes\templclassdef.h">
+      <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\system.h">
-      <Filter>include</Filter>
+      <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\TDObject.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\templclassdef.h">
-      <Filter>include</Filter>
+    <ClInclude Include="..\Classes\scenemgr.h">
+      <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\tower.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\actionmgr.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\aimgr.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\constdef.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\god.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\interfacedef.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\map.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\actionmgr.cpp">
-      <Filter>source</Filter>
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tower.cpp">
+      <Filter>include\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ai.cpp">
-      <Filter>source</Filter>
+      <Filter>include\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\aimgr.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\god.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\map.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenemgr.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\system.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\templclassdef.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\beginscene.cpp">
@@ -114,26 +126,11 @@
     <ClCompile Include="..\Classes\FinishSes.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\god.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\map.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenemgr.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\system.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TDObject.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\templclassdef.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\tower.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>include</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

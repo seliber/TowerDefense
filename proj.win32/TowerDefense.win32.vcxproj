@@ -144,7 +144,6 @@
     <ClInclude Include="..\Classes\map.h" />
     <ClInclude Include="..\Classes\scenemgr.h" />
     <ClInclude Include="..\Classes\system.h" />
-    <ClInclude Include="..\Classes\TDObject.h" />
     <ClInclude Include="..\Classes\templclassdef.h" />
     <ClInclude Include="..\Classes\tower.h" />
     <ClInclude Include="main.h" />
@@ -162,7 +161,6 @@
     <ClCompile Include="..\Classes\map.cpp" />
     <ClCompile Include="..\Classes\scenemgr.cpp" />
     <ClCompile Include="..\Classes\system.cpp" />
-    <ClCompile Include="..\Classes\TDObject.cpp" />
     <ClCompile Include="..\Classes\templclassdef.cpp" />
     <ClCompile Include="..\Classes\tower.cpp" />
     <ClCompile Include="main.cpp" />

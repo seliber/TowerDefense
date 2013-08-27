@@ -2,6 +2,7 @@
 #include "constdef.h"
 #include "scenemgr.h"
 #include "system.h"
+#include "HelloWorldScene.h"
 USING_NS_CC;
 
 
@@ -29,7 +30,7 @@ bool CBegin::init()
 	{
 		return false;
 	}
-
+	this->setTouchEnabled( true );
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
@@ -58,7 +59,7 @@ bool CBegin::init()
 	// add a label shows "Hello World"
 	// create and initialize a label
 
-	CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", TITLE_FONT_SIZE);
+	CCLabelTTF* pLabel = CCLabelTTF::create("Tower Defense", "Arial", TITLE_FONT_SIZE);
 
 	// position the label on the center of the screen
 	pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
@@ -67,32 +68,16 @@ bool CBegin::init()
 	// add the label as a child to this layer
 	this->addChild(pLabel, 1);
 
-	// add "HelloWorld" splash screen"
-	CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-
-	// position the sprite on the center of the screen
-	pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-	// add the sprite as a child to this layer
-	this->addChild(pSprite, 0);
-
 	return true;
 }
 
 US_TD
 void CBegin::menuCloseCallback(CCObject* pSender)
 {
-// 	if ( CSceneMgr::GetSingletonPtr()->get( "Hello", scene) )
-// 	{
-// 		shared_ptr<CCScene> ptr = scene.lock();
-// 		if ( ptr )
-// 		{
-// 			CCDirector::sharedDirector()->pushScene( ptr.get() );
-// 		}
-// 	}
-	
-// 	/*CCDirector::sharedDirector()->*/
-// #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-// //	exit(0);
-// #endif
+	CCDirector::sharedDirector()->pushScene( HelloWorld::scene() );
+}
+
+void CBegin::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
+{
+	int a = 0;
 }

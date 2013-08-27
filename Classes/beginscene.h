@@ -13,6 +13,8 @@ public:
 	// a selector callback
 	void menuCloseCallback(CCObject* pSender);
 
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+
 	// implement the "static node()" method manually
 	CREATE_FUNC(CBegin);
 };

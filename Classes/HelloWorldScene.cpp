@@ -28,11 +28,14 @@ CCScene* HelloWorld::scene()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-	this->setTouchEnabled(true);
+	//CCDirector::sharedDirector()->getOpenGLView()->SetWin32KeyLayer(this);
+	
 	if ( !CCLayer::init() )
 	{
 		return false;
 	}
+	this->setTouchEnabled(true);
+
 	this->schedule( schedule_selector(HelloWorld::update), 1);
 
 	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
@@ -47,29 +50,14 @@ bool HelloWorld::init()
 	CSystem::GetSingletonPtr()->Launch( "map.tmx", this );
 	return true;
 }
-
 void HelloWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-}
-bool HelloWorld::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-{
-	return true;
+	int a = 0;
 }
 
-void HelloWorld::menuCloseCallbackUp(CCObject* pSender)
+void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
-}
-
-void HelloWorld::menuCloseCallbackDown(CCObject* pSender)
-{
-}
-
-void HelloWorld::menuCloseCallbackLeft(CCObject* pSender)
-{
-}
-
-void HelloWorld::menuCloseCallbackRigt(CCObject* pSender)
-{
+	int a = 0;
 }
 
 void HelloWorld::update( float ct )
