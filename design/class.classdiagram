@@ -38,21 +38,19 @@ Properties
 属性，string-string的map。用于描述Object的属性
 比如，造价，时间，生命，hp等</body>
     </comment>
+    <comment Id="24b6b336-cecc-4e51-a8eb-573f7fdd7fd2">
+      <elementDefinition Id="ca39aedb-b0b6-427e-b312-0c9bd26af908" />
+      <body>1、系统初始化 IGod，MapMgr，LevelMgr
+2、用户选择关卡，加载关卡
+3、关卡加载地图
+4、游戏开始
+5、LevelMgr开始负责创建怪物。
+6、用户开始建造塔
+7、Object更新，每次更新启用AI判断
+判断成功调用IGod创建技能。
+8、LevelMgr负责判断关卡是否结束，游戏是否结束。</body>
+    </comment>
   </ownedCommentsInternal>
-  <profileInstances>
-    <packageHasProfileInstances Id="d6bcc2ff-6ca6-4e00-9e32-98787adba586">
-      <profileInstance Id="391807e4-5f9e-45db-996b-9d850d780668" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="82673ba0-fe2c-4cda-ab52-4070f3b92f41">
-      <profileInstance Id="b4e9def5-aee0-48dd-9fe9-a54e584140b8" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
       <class Id="1a603511-2edf-4792-ae60-6ceeaa596146" name="System" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -106,6 +104,22 @@ Properties
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="55caeb45-19dd-4ff3-92f5-1bea4f465078" />
           </association>
+          <association Id="39e9861b-d672-4d40-ae45-58391c797702" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <interfaceMoniker Id="a4f07920-b94f-4a07-a63b-4320fe986630" LastKnownName="IActionMgr" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="270e3107-f599-4147-9b5f-1264f4fdb3a5" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="79c88b68-b7de-4a87-a2ca-d0ce88151151" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4ab60d36-2d02-4c8a-87ba-68574b3489ba" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="d888c1ea-07f9-40c2-84d5-4cca1d3de4b4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b315fb11-b358-42f8-b957-56c89252485c" />
+          </association>
         </targetEnds>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -123,6 +137,16 @@ Properties
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd Id="34e29900-19f0-4cb9-885a-d0fa514e9f6e" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <lowerValueInternal>
+                    <literalString Id="994f7ce2-b674-4a42-a4d7-e372adbff2db" name="Lower" value="*">
+                      <elementDefinition Id="e4c9d759-25b1-4358-ae91-cc83d989f2b6" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="91f4fe7f-4839-443d-b529-16d917157d5e" name="Upper" value="*">
+                      <elementDefinition Id="9864f64f-3b98-4224-b85d-20402fb36c9c" />
+                    </literalString>
+                  </upperValueInternal>
                   <elementDefinition Id="a858b475-98c0-4e3f-ba7c-00694258d341" />
                 </memberEnd>
               </associationHasOwnedEnds>
@@ -130,6 +154,23 @@ Properties
             <elementDefinition Id="2695fa19-30df-4cdc-9936-f2a292bd239b" />
           </association>
         </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="35a00ed1-8597-48fd-863b-05c16fda231d" name="map&lt;string,IMap*&gt; _maps" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="af89a8ef-889a-4252-a17f-38d2b64817ab" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="d694f697-5cf1-4972-be98-13d3539eaf7f" name="IMap* LoadMap" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="585e5b96-467c-4b50-b69c-4164fd518cd2" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="80b859c4-a852-412f-b72f-4823947eafa7" name="strName" direction="In" isUnique="false">
+                  <elementDefinition Id="d116bc52-ad51-442f-a3f3-1a58107f8237" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -146,6 +187,16 @@ Properties
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd Id="74d58134-f5c6-4ec3-a497-592784700276" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <lowerValueInternal>
+                    <literalString Id="e288f44b-220b-4896-be9c-e82a1e8929e6" name="Lower" value="*">
+                      <elementDefinition Id="8b71e8be-b384-456a-8953-fbb0533fc8fd" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="c4901a9c-3ccc-4725-bc25-ab97527745ec" name="Upper" value="*">
+                      <elementDefinition Id="5beebe64-bd17-4193-a094-56d89ff1da88" />
+                    </literalString>
+                  </upperValueInternal>
                   <elementDefinition Id="a04d773d-fb69-4b79-ac6d-bcb95e67d242" />
                 </memberEnd>
               </associationHasOwnedEnds>
@@ -153,6 +204,23 @@ Properties
             <elementDefinition Id="f1ff81a0-f5d3-4353-bdcb-ca4f67e41eb7" />
           </association>
         </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="27540716-d121-4b44-9520-93132e1074ce" name="map&lt;string,ILevel*&gt; _levels" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f58f42b5-6e61-48d6-9f26-60ae6c4b82f6" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="77aad3dc-f986-4a46-a9a6-e58c810046ae" name="update" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="5486cc18-71be-4c54-97cc-b926571350bc" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="eeb60eab-2665-4cf3-afd5-652af1d88338" name="float dt" direction="In" isUnique="false">
+                  <elementDefinition Id="867d154f-fb11-42f9-b82a-4008ef005b14" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -182,14 +250,18 @@ Properties
       <Interface Id="599d8b98-2a57-4272-b756-e28fcc9add8a" name="IMap" isAbstract="false" isLeaf="false">
         <elementDefinition Id="60f293c9-79a3-423d-bd62-64d1e5ed1b5f" />
         <ownedOperations>
-          <operation Id="994e0401-7d94-49f5-8ca2-f17a5e61148c" name="路径总数" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="f34cc61a-8de5-41bd-9bc1-72a1ca8b52cf" />
+          <operation Id="efb3496d-634f-458a-b73e-958a5095ee2c" name="bool Load" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="50e11a5c-c364-465f-954f-ed2798daf343" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c78215e9-c00d-41ec-84a0-a09cb488e617" name="strName" direction="In" isUnique="false">
+                  <elementDefinition Id="543f121d-c607-4ed1-9a85-df7ab1106925" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
-          <operation Id="e0a9df17-62da-4129-943b-fa95452bd452" name="路径" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="85805830-3ecc-43a4-95a4-a2ed814db27f" />
-          </operation>
-          <operation Id="1e9dacdf-933a-46e8-9573-61d9440dd125" name="初始化" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="7e76952a-033c-4fa4-a45d-442b77ac1187" />
+          <operation Id="e2e253cf-c371-467c-bf77-d388a7c38fe6" name="CPtAr GetPath" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="04b50d19-2369-42a9-a30b-480ceab0458f" />
           </operation>
         </ownedOperations>
       </Interface>
@@ -197,6 +269,22 @@ Properties
     <logicalClassDesignerModelHasTypes>
       <Interface Id="5691a5dd-3418-4846-b367-49ea6630f189" name="ILevel" isAbstract="false" isLeaf="false">
         <elementDefinition Id="57666523-ccb5-4b3b-97e2-80060524a9eb" />
+        <ownedAttributes>
+          <property Id="fab6a666-689a-4a46-9795-e3ae3eb4b50f" name="u32 m_dwState" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c738a879-3906-45ed-9b0d-a358425307f7" />
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation Id="3a3219b2-a0ad-4724-b096-2d5092f76374" name="update" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="9bf29dbc-801f-4ca1-8c47-c163f51df1fb" />
+          </operation>
+          <operation Id="51b39564-488b-44d6-a430-c713d3a79937" name="AddEnemy" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="2327f321-2f8b-437d-8a7d-7da71cccce29" />
+          </operation>
+          <operation Id="d7d7fc5c-f20e-4baf-8a51-827a307eeb9a" name="IsLevelOver" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="efc722c9-5e92-4d62-8ee3-584f631f501f" />
+          </operation>
+        </ownedOperations>
       </Interface>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -246,6 +334,11 @@ Properties
             <elementDefinition Id="e39bafdb-5b84-49d5-8d30-6289b0bf3342" />
           </association>
         </targetEnds>
+        <ownedAttributes>
+          <property Id="d177b971-620e-4366-81c7-5b210e091f84" name="u32 m_dwState" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2437b922-d660-4185-9c8d-493eb667cbe1" />
+          </property>
+        </ownedAttributes>
       </Interface>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -291,8 +384,72 @@ Properties
         <elementDefinition Id="14d9f80f-7b53-4c84-8d80-f562c840241e" />
       </class>
     </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <enumeration Id="4ef3bf3a-1414-4555-9873-13d258d0fa19" name="ObjectState" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4d8a0815-dfee-42d6-9ada-6fa6a312b69d" />
+        <ownedLiterals>
+          <enumerationLiteral Id="d2e92ec3-5580-4443-a22e-1ef0bbac0bf0" name="emNone">
+            <elementDefinition Id="f9761dda-661c-448b-917d-a68a476f0a62" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="0a46ec6d-82d7-40ff-8ff9-b35f5692fb59" name="emCreating">
+            <elementDefinition Id="fb899020-c903-4ac7-95c9-3f47d488aa64" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="7c1fd55f-745e-4f9f-bc72-3d1347a33576" name="emCreated">
+            <elementDefinition Id="242ae2ae-c6e4-446f-b458-2c432d5823f9" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="ed0a7478-584f-4ebe-9b1d-1ec6efc2479d" name="emActtacking">
+            <elementDefinition Id="8ec4ead5-5ffe-4303-b0ce-23bd4263ef4b" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="dfb7d236-cb9c-4782-8d2b-07420329e584" name="emActtacked">
+            <elementDefinition Id="5d65ab8f-50d9-4f9a-9215-dab7b21156e2" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="aa51529c-52dd-493d-a9f1-f44b758e2650" name="emDead">
+            <elementDefinition Id="617d321e-7a02-4257-be90-bfd89b1c1c07" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="440cadcd-8735-441c-a155-7652d6b4ce56" name="emDeading">
+            <elementDefinition Id="1c19239c-13be-4182-8085-d59645a05407" />
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="a4f07920-b94f-4a07-a63b-4320fe986630" name="IActionMgr" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="cc4e5ea4-43bb-4718-89f7-942e27a0aefa" />
+        <ownedOperations>
+          <operation Id="26dfe9ff-19ed-4ed2-b110-7bc46f45a267" name="DoAction" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="c3df689b-7787-4588-93fe-34805a676f7a" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="47a50161-6809-4a8d-b981-7bebc34e8c2d" name="strName" direction="In" isUnique="false">
+                  <elementDefinition Id="9c140412-4b3f-47e1-9b12-97793cf1652c" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="267d1c34-0fec-4918-a294-77cd1445464f" name="ITDObject*" direction="In" isUnique="false">
+                  <elementDefinition Id="edefc5bf-2fb5-4567-8503-cf4d56345080" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="3485f2f7-06ce-4e85-88ee-cb894104aa5c" name="design">
     <elementDefinition Id="da8f6e8e-a786-4108-8d6f-11d7ab191977" />
+    <profileInstances>
+      <packageHasProfileInstances Id="d6bcc2ff-6ca6-4e00-9e32-98787adba586">
+        <profileInstance Id="391807e4-5f9e-45db-996b-9d850d780668" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="82673ba0-fe2c-4cda-ab52-4070f3b92f41">
+        <profileInstance Id="b4e9def5-aee0-48dd-9fe9-a54e584140b8" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>

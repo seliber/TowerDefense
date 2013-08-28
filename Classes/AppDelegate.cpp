@@ -6,7 +6,7 @@
 #include "HelloWorldScene.h"
 #include "FinishSes.h"
 #include "beginscene.h"
-#include "scenemgr.h"
+
 #include "system.h"
 USING_NS_CC;
 using namespace std;
@@ -20,9 +20,9 @@ AppDelegate::~AppDelegate()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-	new CSceneMgr();
+	
 	new CSystem();
-	CSceneMgr* pMgr = CSceneMgr::GetSingletonPtr();
+
 	// initialize director
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
@@ -67,7 +67,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	CCFileUtils::sharedFileUtils()->setSearchPaths(searchPath);
 
 	// turn on display FPS
-	pDirector->setDisplayStats(false);
+	pDirector->setDisplayStats(true);
 
 	// set FPS. the default value is 1.0/60 if you don't call this
 	pDirector->setAnimationInterval(1.0 / 60);

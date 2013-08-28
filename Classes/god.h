@@ -6,27 +6,25 @@ NAMESPACE_TD_BEGIN
 
 class CTDGod : public ITDGod{
 public:
-	static unsigned int CreateID(){
-		static unsigned int wID = 0;
-		return wID++;
-	}
-public:
-	class CTowerFactory : public IContainer_Struct<unsigned int, ITDObject*>{
+	class CTowerFactory : public IContainer_SharePtr<unsigned int, ITDObject>{
 	public:	
-		virtual ITDObject* add( const unsigned int& key, const string& strType );
+		virtual TDObjectWeakPtr add( const unsigned int& key, const string& strType );
+	protected:
 		virtual void makeAi( ITDObject* ptr );
 	};
-	class CEnemyFactory : public IContainer_Struct<unsigned int, ITDObject*>{
+	class CEnemyFactory : public IContainer_SharePtr<unsigned int, ITDObject>{
 	public:	
-		virtual ITDObject* add( const unsigned int& key, const string& strType );
+		virtual TDObjectWeakPtr add( const unsigned int& key, const string& strType );
+	protected:
 		virtual void makeAi( ITDObject* ptr );
 	};
 public:
 	CTDGod();
-	virtual ITDObject* Create( const String& strType, const String& strName );
+	virtual bool Ini( const String& strPath ){return false;}
+	virtual TDObjectWeakPtr Create( const String& strType, const String& strName );
 	virtual void Remove( const String& strType, unsigned int id );
 	virtual void Remove( TDObjectWeakPtr ptr );
-	virtual bool Update(  float dt );
+	virtual void update(float dt);
 	virtual bool Traversal( const String& strType, CDelegateBase* pFun );
 protected:
 	virtual bool UpdateObject( void* ptr );

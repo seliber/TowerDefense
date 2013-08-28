@@ -1,7 +1,7 @@
 #include "map.h"
 
 NAMESPACE_TD_BEGIN
-template<> ITDMap* CSingleton<ITDMap>::m_psSingleton = NULL;
+template<> ITDMapMgr* CSingleton<ITDMapMgr>::m_psSingleton = NULL;
 
 CTDMap::CTDMap(){
 

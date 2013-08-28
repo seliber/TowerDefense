@@ -58,9 +58,6 @@
     <ClInclude Include="..\Classes\system.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\scenemgr.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\tower.h">
       <Filter>include\core</Filter>
     </ClInclude>
@@ -106,9 +103,6 @@
       <Filter>include\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\map.cpp">
-      <Filter>include\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenemgr.cpp">
       <Filter>include\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\system.cpp">

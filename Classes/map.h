@@ -2,6 +2,7 @@
 #include "interfacedef.h"
 
 NAMESPACE_TD_BEGIN
+
 class CTDMap : public ITDMap{
 public:
 	CTDMap();
@@ -12,5 +13,17 @@ public:
 	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXLayer*, _background, Background);
 protected:
 	Path* m_pPath;
+};
+
+class CTDMapMgr : public ITDMapMgr{
+public:
+	virtual ITDMap* GetMap( const String& strName ){ return 0;}
+	virtual bool Ini( const String& strPath ){return false;}
+	virtual TDMapWeakPtr add( const String& key, const string& strType ){
+		ITDMap* pMap = new CTDMap();	
+		TDMapSharePtr ptr(pMap);
+		m_mapData[key] = ptr;
+		return TDMapWeakPtr(ptr);
+	}
 };
 NAMESPACE_TD_END

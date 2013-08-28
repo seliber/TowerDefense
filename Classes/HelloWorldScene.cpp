@@ -37,17 +37,19 @@ bool HelloWorld::init()
 	this->setTouchEnabled(true);
 
 	this->schedule( schedule_selector(HelloWorld::update), 1);
-
-	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
-
-	this->addChild( ptr );
-
-	if ( ptr )
-	{
-		ptr->setPosition( ccp(350, 250) );
-	}
-
-	CSystem::GetSingletonPtr()->Launch( "map.tmx", this );
+// 
+// 	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
+// 
+// 	this->addChild( ptr );
+// 
+// 	if ( ptr )
+// 	{
+// 		ptr->setPosition( ccp(350, 250) );
+// 	}
+// 
+// 	
+// 
+// 	CSystem::GetSingletonPtr()->Launch( "map.tmx", this );
 	return true;
 }
 void HelloWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
@@ -62,6 +64,6 @@ void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 
 void HelloWorld::update( float ct )
 {
-	CSystem::GetSingletonPtr()->Update( this, ct );
+//	CSystem::GetSingletonPtr()->Update( this, ct );
 }
 

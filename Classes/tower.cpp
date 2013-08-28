@@ -5,29 +5,29 @@ NAMESPACE_TD_BEGIN
 const String ITower::strTypeEnemy = "Enemy";
 const String ITower::strTypeTower = "Tower";
 
-ITower::ITower( TDObjectID id, const String& strType ) : ITDObject( id, strType ){
+ITower::ITower( const String& strType ) : ITDObject( strType ){
 
 }
 
-ITDObject* ITower::create( const String& strType, TDObjectID id, const char* pszFileName )
+ITDObject* ITower::create( const String& strType, const char* pszFileName )
 {
-	ITower* pBody = new ITower( id, strType );
+	ITower* pBody = new ITower( strType );
 	pBody->initWithFile( pszFileName );
 	pBody->autorelease();
 	return pBody;
 }
 
-ITDObject* ITower::create( const String& strType, TDObjectID id, int nX, int nY, const char* pszFileName )
+ITDObject* ITower::create( const String& strType, int nX, int nY, const char* pszFileName )
 {
-	ITDObject* pBody = ITower::create( strType, id, pszFileName );
+	ITDObject* pBody = ITower::create( strType, pszFileName );
 	pBody->setPosition( ccp(nX, nY) );
 	pBody->autorelease();
 	return pBody;
 }
 
-ITDObject* ITower::create( const String& strType, TDObjectID id, int nX, int nY, CCTexture2D* pTextrue2D )
+ITDObject* ITower::create( const String& strType, int nX, int nY, CCTexture2D* pTextrue2D )
 {
-	ITDObject* pBody = new ITower( id, strType );
+	ITDObject* pBody = new ITower( strType );
 	pBody->initWithTexture( pTextrue2D );
 	pBody->setPosition( ccp(nX, nY) );
 	pBody->autorelease();

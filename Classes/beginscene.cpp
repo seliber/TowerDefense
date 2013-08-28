@@ -20,7 +20,7 @@ CCScene* CBegin::scene()
 	// return the scene
 	return scene;
 }
-
+CCSprite* p;
 // on "init" you need to initialize your instance
 bool CBegin::init()
 {
@@ -68,13 +68,26 @@ bool CBegin::init()
 	// add the label as a child to this layer
 	this->addChild(pLabel, 1);
 
+	p = CCSprite::create("2.png");
+	this->addChild(p);
+
+	CCRepeatForever* pAction = CCRepeatForever::create( CCSequence::create( CCMoveTo::create(5,ccp(200,200)), CCMoveTo::create(5,ccp(0,0)),NULL ) ) ;
+
+	pAction->setTag( 0 );
+	p->runAction( pAction );
+
+
 	return true;
 }
 
 US_TD
 void CBegin::menuCloseCallback(CCObject* pSender)
 {
-	CCDirector::sharedDirector()->pushScene( HelloWorld::scene() );
+	CCSpeed* action = CCSpeed::create( (CCRepeatForever*)p->getActionByTag(0), 5 );
+
+	p->runAction( action );
+
+	//CCDirector::sharedDirector()->pushScene( HelloWorld::scene() );
 }
 
 void CBegin::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)

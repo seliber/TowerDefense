@@ -5,6 +5,7 @@ NAMESPACE_TD_BEGIN
 class CAiMgr : public IAiMgr{
 public:
 	virtual void DecorateObject( ITDObject* pObject );
-	virtual IAi* add( const String& key, const String& strType );
+	virtual IAiWeakPtr add( const String& key, const String& strType );
+	virtual bool Ini( const String& strPath ){return false;}
 };
 NAMESPACE_TD_END

@@ -15,8 +15,8 @@ bool CAttackAi::DoAi( void* param )
 	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 100, pObject->getPosition(), 50 );
 	if ( bCanAttack )
 	{
-		ITDGod::GetSingletonPtr()->Remove( pObject->getType(), pObject->getID() );
-		CSystem::GetSingletonPtr()->RemoveObject( pObject );	
+		ITDGod::GetSingletonPtr()->Remove( pObject->getType(), pObject->m_uID );
+	/*	CSystem::GetSingletonPtr()->RemoveObject( pObject );*/	
 		return false;
 	}
 	return true;

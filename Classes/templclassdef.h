@@ -76,13 +76,13 @@ private:
 };
 
 
-template<class Key,class Data> class IContainer_SharePtr
+template<class Key,class Data,class Type = string> class IContainer_SharePtr
 {
 protected:
 	typedef map<Key,shared_ptr<Data> > Container;
 	Container m_mapData;
 public:
-	virtual weak_ptr<Data> add( const Key& key, const string& strType ) = 0;
+	virtual weak_ptr<Data> add( const Key& key, const Type& strType ) = 0;
 	virtual ~IContainer_SharePtr(){}
 
 	virtual bool get(const Key& key, weak_ptr<Data>& result){
@@ -99,7 +99,7 @@ public:
 		Container::iterator itr = m_mapData.find( key );
 		if ( itr != m_mapData.end() )
 		{
-		//	itr->second.reset();
+			itr->second.reset();
 			cout << itr->second.use_count() << endl;
 			m_mapData.erase( itr );
 			return true;
@@ -139,10 +139,12 @@ protected:
 	typedef map<Key,Data> Container;
 	Container m_mapData;
 public:
-	virtual Data add( const Key& key, const String& strType ) = 0;
 	virtual ~IContainer_Struct(){}
+	virtual void add( const Key& key, const Data& data ){
+		m_mapData[key] = data;
+	}
 
-	virtual bool get(const Key& key, Data data){
+	virtual bool get(const Key& key, Data& data){
 		Container::iterator itr = m_mapData.find( key );
 		if ( itr != m_mapData.end() )
 		{

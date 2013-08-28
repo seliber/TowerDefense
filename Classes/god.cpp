@@ -9,12 +9,12 @@ CTDGod::CTDGod(){
 	m_pEnemyFactory = new CEnemyFactory();
 }
 
-ITDObject* CTDGod::Create( const String& strType, const String& strName ){
+TDObjectWeakPtr CTDGod::Create( const String& strType, const String& strName ){
 	if ( strType == ITower::strTypeEnemy )
 	{
-		return m_pEnemyFactory->add( CTDGod::CreateID(), strName );
+		return m_pEnemyFactory->add( 0, strName );
 	}
-	return m_pTowerFactory->add( CTDGod::CreateID(), strName );
+	return m_pTowerFactory->add( 0, strName );
 }
 
 void CTDGod::Remove(const String& strType, unsigned int id )
@@ -32,19 +32,18 @@ void CTDGod::Remove( TDObjectWeakPtr ptr ){
 
 }
 
-bool CTDGod::Update( float dt ){
+void CTDGod::update( float dt ){
 	//m_pEnemyFactory->Traversal( &CDelegate<CTDGod>(this, &CTDGod::UpdateObject ) );
 	m_pTowerFactory->Traversal( &CDelegate<CTDGod>(this, &CTDGod::UpdateObject ) );
-	return false;
 }
 
 bool CTDGod::UpdateObject( void* ptr )
 {
-	ITDObject* pObject = (ITDObject*)(ptr);
-	if ( pObject )
-	{
-		pObject->Update(0);
-	}
+// 	ITDObject* pObject = (ITDObject*)(ptr);
+// 	if ( pObject )
+// 	{
+// 		pObject->Update(0);
+// 	}
 	return false;
 }
 
@@ -59,20 +58,21 @@ bool CTDGod::Traversal( const String& strType, CDelegateBase* pFun )
 	return false;
 }
 
-ITDObject* CTDGod::CTowerFactory::add( const unsigned int& key, const string& strType )
+TDObjectWeakPtr CTDGod::CTowerFactory::add( const unsigned int& key, const string& strType )
 {
 	ITDObject* pObject = 0;
 	if ( strType == "Tower" )
 	{
-		pObject = ITower::create( "Tower", key, "2.png" );
+		pObject = ITower::create( "Tower", "2.png" );
 	}
 	else
 	{
-		pObject = ITower::create( "Tower", key, "2.png" );
+		pObject = ITower::create( "Tower", "2.png" );
 	}
 	makeAi( pObject );
-	m_mapData[key] = pObject;
-	return pObject;
+	TDObjectSharePtr ptr( pObject );
+	m_mapData[pObject->m_uID] = ptr;
+	return TDObjectWeakPtr(ptr);
 }
 
 void CTDGod::CTowerFactory::makeAi( ITDObject* ptr )
@@ -80,20 +80,21 @@ void CTDGod::CTowerFactory::makeAi( ITDObject* ptr )
 	IAiMgr::GetSingletonPtr()->DecorateObject( ptr );
 }
 
-ITDObject* CTDGod::CEnemyFactory::add( const unsigned int& key, const string& strType )
+TDObjectWeakPtr CTDGod::CEnemyFactory::add( const unsigned int& key, const string& strType )
 {
 	ITDObject* pObject = 0;
 	if ( strType == "Enemy" )
 	{
-		pObject = ITower::create( "Enemy", key, "player.png" );
+		pObject = ITower::create( "Enemy", "player.png" );
 	}
 	else
 	{
-		pObject = ITower::create( "Enemy", key, "player.png" );
+		pObject = ITower::create( "Enemy", "player.png" );
 	}
 	makeAi( pObject );
-	m_mapData[key] = pObject;
-	return pObject;	
+	TDObjectSharePtr ptr( pObject );
+	m_mapData[pObject->m_uID] = ptr;
+	return TDObjectWeakPtr(ptr);
 }
 
 void CTDGod::CEnemyFactory::makeAi( ITDObject* ptr )

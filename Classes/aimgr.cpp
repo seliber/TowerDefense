@@ -7,8 +7,11 @@ void CAiMgr::DecorateObject( ITDObject* pObject )
 	pObject->setAI( pAi );
 }
 
-IAi* CAiMgr::add( const String& key, const String& strType )
+IAiWeakPtr CAiMgr::add( const String& key, const String& strType )
 {
-	return 0;
+	IAi* pAi = new CAttackAi();
+	IAiSharePtr ptr( pAi );
+	m_mapData[key] = ptr;
+	return IAiWeakPtr(ptr);
 }
 NAMESPACE_TD_END
