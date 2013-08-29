@@ -22,12 +22,10 @@ public:
 	CTDGod();
 	virtual bool Ini( const String& strPath ){return false;}
 	virtual TDObjectWeakPtr Create( const String& strType, const String& strName );
-	virtual void Remove( const String& strType, unsigned int id );
+	virtual void Remove( const String& strType, ID id );
 	virtual void Remove( TDObjectWeakPtr ptr );
-	virtual void update(float dt);
 	virtual bool Traversal( const String& strType, CDelegateBase* pFun );
-protected:
-	virtual bool UpdateObject( void* ptr );
+	virtual bool GetObject( const String& strType, ID id, TDObjectWeakPtr& ptr );
 private:
 	CTowerFactory* m_pTowerFactory;
 	CEnemyFactory* m_pEnemyFactory;

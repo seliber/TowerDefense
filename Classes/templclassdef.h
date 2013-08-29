@@ -120,12 +120,11 @@ public:
 		return m_mapData.size();
 	}
 
-	virtual void Traversal( CDelegateBase* pFun ){
+	virtual void traversal( CDelegateBase* pFun ){
 		Container::iterator itr = m_mapData.begin();
 		while ( itr != m_mapData.end() ){
-			//	weak_ptr<Data> ptr( itr->second );
-
-			if ( (*pFun)((void*)itr->second._Get()) == false ){
+			weak_ptr<Data> ptr( itr->second );
+			if ( (*pFun)((void*)(&ptr)) == false ){
 				return;
 			}
 			itr++;
@@ -171,7 +170,7 @@ public:
 		return m_mapData.size();
 	}
 
-	virtual void Traversal( CDelegateBase* pFun ){
+	virtual void traversal( CDelegateBase* pFun ){
 		Container::iterator itr = m_mapData.begin();
 		while ( itr != m_mapData.end() ){
 			if ( (*pFun)( (void*)(itr->second) ) == false ){

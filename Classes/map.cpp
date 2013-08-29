@@ -4,16 +4,11 @@ NAMESPACE_TD_BEGIN
 template<> ITDMapMgr* CSingleton<ITDMapMgr>::m_psSingleton = NULL;
 
 CTDMap::CTDMap(){
-
-
 	_tileMap = NULL;
 	_background = NULL;
-}
 
-Path* CTDMap::GetPath()
-{
-	m_pPath = CCPointArray::create( 30 );
-	m_pPath->addControlPoint( ccp(20,20) );
+	m_pPath = new CCPointArray();
+	m_pPath->initWithCapacity( 30 );
 	m_pPath->addControlPoint( ccp(50,50) );
 	m_pPath->addControlPoint( ccp(100,50) );
 	m_pPath->addControlPoint( ccp(150,50) );
@@ -23,13 +18,15 @@ Path* CTDMap::GetPath()
 	m_pPath->addControlPoint( ccp(350,50) );
 	m_pPath->addControlPoint( ccp(400,50) );
 	m_pPath->addControlPoint( ccp(400,100) );
-
 	m_pPath->addControlPoint( ccp(400,150) );
 	m_pPath->addControlPoint( ccp(400,200) );
 	m_pPath->addControlPoint( ccp(400,250) );
 	m_pPath->addControlPoint( ccp(400,300) );
 
+}
 
+Path* CTDMap::GetPath()
+{
 	return m_pPath;
 }
 
@@ -54,5 +51,10 @@ bool CTDMap::IniMap( const String& strFile, CCLayer* pLayer )
 bool CTDMap::LoadMap(const String& strFile)
 {
 	return false;
+}
+
+bool CTDMap::IsVisiblePosition( const IPoint* pt )
+{
+	return true;
 }
 NAMESPACE_TD_END

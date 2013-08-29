@@ -27,43 +27,36 @@ CCScene* HelloWorld::scene()
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
-{
-	//CCDirector::sharedDirector()->getOpenGLView()->SetWin32KeyLayer(this);
-	
+{	
 	if ( !CCLayer::init() )
 	{
 		return false;
 	}
 	this->setTouchEnabled(true);
-
-	this->schedule( schedule_selector(HelloWorld::update), 1);
-// 
-// 	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
-// 
-// 	this->addChild( ptr );
-// 
-// 	if ( ptr )
-// 	{
-// 		ptr->setPosition( ccp(350, 250) );
-// 	}
-// 
-// 	
-// 
-// 	CSystem::GetSingletonPtr()->Launch( "map.tmx", this );
+	CSystem::GetSingletonPtr()->Launch( "1" );
+	CSystem::GetSingletonPtr()->Start( "1", this );
 	return true;
 }
+
 void HelloWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-	int a = 0;
+
 }
 
 void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
-	int a = 0;
+	CCSetIterator it = pTouches->begin();
+	CCTouch* touch = (CCTouch*)(*it);
+	CCPoint location = touch->getLocation();
+
+	TDObjectWeakPtr ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
+	TDObjectSharePtr shptr = ptr.lock();
+	if ( shptr )
+	{    
+		this->addChild( (ITDObject*)(shptr.get()) );
+		shptr->setPosition( location );
+		shptr->scheduleUpdateWithPriority( 2 ); 
+	}	
 }
 
-void HelloWorld::update( float ct )
-{
-//	CSystem::GetSingletonPtr()->Update( this, ct );
-}
 

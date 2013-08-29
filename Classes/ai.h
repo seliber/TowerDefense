@@ -12,7 +12,6 @@ protected:
 
 	bool collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointTwo, float radiusTwo);
 
-protected:
-	ITDObject* m_pSourceObject;
+	DEF_MEMBER( ITDObject*, m_pSourceObject, SourceObject )
 };
 NAMESPACE_TD_END

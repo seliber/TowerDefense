@@ -1,25 +1,45 @@
 #include "ai.h"
 #include "templclassdef.h"
 #include "system.h"
+#include "skill.h"
 
 NAMESPACE_TD_BEGIN
 void CAttackAi::Update( float dt, ITDObject* pObject )
 {
+	if ( pObject == 0 )
+	{
+		return;
+	}
 	m_pSourceObject = pObject;
 	ITDGod::GetSingletonPtr()->Traversal( "Enemy",&CDelegate<CAttackAi>(this, &CAttackAi::DoAi ) );
 }
 
 bool CAttackAi::DoAi( void* param )
 {
-	ITDObject* pObject = (ITDObject*)param;
-	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 100, pObject->getPosition(), 50 );
-	if ( bCanAttack )
+	TDObjectWeakPtr* pObject = (TDObjectWeakPtr*)param;
+
+	if ( pObject == 0 )
 	{
-		ITDGod::GetSingletonPtr()->Remove( pObject->getType(), pObject->m_uID );
-	/*	CSystem::GetSingletonPtr()->RemoveObject( pObject );*/	
 		return false;
 	}
-	return true;
+	TDObjectSharePtr shptrTarget = pObject->lock();
+
+	if ( shptrTarget == 0 )
+	{
+		return false;
+	}
+	
+	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 100, shptrTarget->getPosition(), 50 );
+	if ( bCanAttack )
+	{
+		TDObjectWeakPtr weakptr;
+		bool bRet = ITDGod::GetSingletonPtr()->GetObject( m_pSourceObject->getType(), m_pSourceObject->m_uID, weakptr );
+		if ( bRet )
+		{
+			return CSkillMgr::GetSingletonPtr()->CreateSkill( "", weakptr, *pObject );
+		}
+	}
+	return false;
 }
 
 bool CAttackAi::collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointTwo, float radiusTwo)

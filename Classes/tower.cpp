@@ -13,7 +13,7 @@ ITDObject* ITower::create( const String& strType, const char* pszFileName )
 {
 	ITower* pBody = new ITower( strType );
 	pBody->initWithFile( pszFileName );
-	pBody->autorelease();
+	//pBody->autorelease();
 	return pBody;
 }
 
@@ -21,7 +21,7 @@ ITDObject* ITower::create( const String& strType, int nX, int nY, const char* ps
 {
 	ITDObject* pBody = ITower::create( strType, pszFileName );
 	pBody->setPosition( ccp(nX, nY) );
-	pBody->autorelease();
+	//pBody->autorelease();
 	return pBody;
 }
 
@@ -30,11 +30,11 @@ ITDObject* ITower::create( const String& strType, int nX, int nY, CCTexture2D* p
 	ITDObject* pBody = new ITower( strType );
 	pBody->initWithTexture( pTextrue2D );
 	pBody->setPosition( ccp(nX, nY) );
-	pBody->autorelease();
+	//pBody->autorelease();
 	return pBody;
 }
 
-void ITower::Update( float dt )
+void ITower::update( float dt )
 {
 	if ( m_pAI != 0 )
 	{

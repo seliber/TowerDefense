@@ -17,7 +17,7 @@ TDObjectWeakPtr CTDGod::Create( const String& strType, const String& strName ){
 	return m_pTowerFactory->add( 0, strName );
 }
 
-void CTDGod::Remove(const String& strType, unsigned int id )
+void CTDGod::Remove(const String& strType, ID id )
 {
 	if ( strType == ITower::strTypeTower )
 	{
@@ -29,33 +29,30 @@ void CTDGod::Remove(const String& strType, unsigned int id )
 	}
 }
 void CTDGod::Remove( TDObjectWeakPtr ptr ){
-
-}
-
-void CTDGod::update( float dt ){
-	//m_pEnemyFactory->Traversal( &CDelegate<CTDGod>(this, &CTDGod::UpdateObject ) );
-	m_pTowerFactory->Traversal( &CDelegate<CTDGod>(this, &CTDGod::UpdateObject ) );
-}
-
-bool CTDGod::UpdateObject( void* ptr )
-{
-// 	ITDObject* pObject = (ITDObject*)(ptr);
-// 	if ( pObject )
-// 	{
-// 		pObject->Update(0);
-// 	}
-	return false;
+	TDObjectSharePtr shptr = ptr.lock();
+	if ( shptr )
+	{
+		Remove( shptr->getType(), shptr->m_uID );
+	}
 }
 
 bool CTDGod::Traversal( const String& strType, CDelegateBase* pFun )
 {
 	if ( strType == "Tower" ){
-		m_pTowerFactory->Traversal( pFun );
+		m_pTowerFactory->traversal( pFun );
 	}
 	else{
-		m_pEnemyFactory->Traversal( pFun );
+		m_pEnemyFactory->traversal( pFun );
 	}
 	return false;
+}
+
+bool CTDGod::GetObject( const String& strType, ID id, TDObjectWeakPtr& ptr )
+{
+	if ( strType == "Tower" ){
+		return m_pTowerFactory->get( id, ptr );
+	}
+	return m_pEnemyFactory->get( id, ptr );
 }
 
 TDObjectWeakPtr CTDGod::CTowerFactory::add( const unsigned int& key, const string& strType )

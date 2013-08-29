@@ -3,6 +3,8 @@
 #include "god.h"
 #include "actionmgr.h"
 #include "aimgr.h"
+#include "level.h"
+#include "skill.h"
 NAMESPACE_TD_BEGIN
 
 template<> CSystem* CSingleton<CSystem>::m_psSingleton = 0;
@@ -25,75 +27,67 @@ CSystem::CSystem()
 	{
 		new CAiMgr();
 	}
+	if ( ITDLevelMgr::GetSingletonPtr() == 0 )
+	{
+		new CLevelMgr();
+	}
+	if ( CSkillMgr::GetSingletonPtr() == 0 )
+	{
+		new CSkillMgr();
+	}
 }
 
-bool CSystem::Launch( const String& strMap, CCLayer* pLayer )
+bool CSystem::Launch( const String& strSourcePath )
 {
-// 	CTDMap::GetSingletonPtr()->IniMap( strMap, pLayer );
-// 	ITDGod::GetSingletonPtr()->setLayer( pLayer );
-// 	m_pLayer = pLayer;
+	ITDMapMgr::GetSingletonPtr()->Ini( strSourcePath );
+	ITDLevelMgr::GetSingletonPtr()->Ini( strSourcePath );
+	ITDGod::GetSingletonPtr()->Ini( strSourcePath );
+
+	ITDMapMgr::GetSingletonPtr()->add("1","1");
+	ITDLevelMgr::GetSingletonPtr()->add("1","1");
+	return false;
+}
+
+bool CSystem::Start( const String& strMap, CCLayer* pLayer )
+{
+	m_pLayer = pLayer;
+	TDMapWeakPtr tdmap;
+	if ( !ITDMapMgr::GetSingletonPtr()->get( strMap, tdmap) )
+	{
+		return false;
+	}
+	TDMapSharePtr shtdmap = tdmap.lock();
+	if ( !shtdmap )
+	{
+		return false;
+	}
+	TDLevelWeakPtr level;
+	if ( ITDLevelMgr::GetSingletonPtr()->get( strMap, level ) )
+	{
+		TDLevelSharePtr shLevel = level.lock();
+		if ( shLevel )
+ 		{
+			shLevel->Start( pLayer,shtdmap->GetPath() );
+		}
+	}
 	return true;
 }
 
-// bool CSystem::Update( CCLayer* pLayer, float dt )
-// {
-// 	IBoss::GetSingletonPtr()->Update( pLayer, dt );
-// 	ITDGod::GetSingletonPtr()->Update( dt );
-// 	return true;
-// }
-// 
-// bool IBoss::Update( CCLayer* pLayer, float dt )
-// {
-// 	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Enemy", "Enemy" );
-// 	if ( ptr )
-// 	{
-// 		do 
-// 		{    
-// 			if ( pLayer )
-// 			{
-// 				pLayer->addChild(ptr);
-// 				ptr->setPosition( ccp( 20,20 ) );
-// 				CCAnimation* animation = CCAnimation::create();
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				animation->addSpriteFrameWithFileName("2.png");
-// 				animation->addSpriteFrameWithFileName("3.png");
-// 				
-// 				// should last 2.8 seconds. And there are 14 frames.
-// 				animation->setDelayPerUnit(2.8f / 14.0f);
-// 				animation->setRestoreOriginalFrame(true);
-// 
-// 				CCAnimate* action = CCAnimate::create(animation);
-// 				CCCardinalSplineTo *action2 = CCCardinalSplineTo::create(5, ITDMap::GetSingletonPtr()->GetPath(), 1 );
-// 				CCCardinalSplineTo* reverse2 = (CCCardinalSplineTo*)action2->reverse();		
-// 			//	CCSequence *seq2 = CCSequence::create(action2, reverse2, NULL);
-// 				ptr->runAction(
-// 					CCSequence::create(
-// 					action,
-// 					action2,
-// 				//	reverse2,
-// 					 CCCallFuncN::create( ptr, callfuncN_selector( ITDObject::End )),
-// 					NULL));
-// 			}
-// 			else{
-// 				return false;
-// 			}
-// 
-// 		} while (0);
-// 	}
-// 	return true;
-// }
+bool CSystem::Pause()
+{
+	CCDirector::sharedDirector()->pause();
+	return true;
+}
 
-// void CSystem::RemoveObject( ITDObject* pObject )
-// {
-// 	m_pLayer->removeChild( pObject );
-// }
+bool CSystem::Resume()
+{
+	CCDirector::sharedDirector()->resume();
+	return true;
+}
+
+bool CSystem::End()
+{
+	return true;
+}
+
 NAMESPACE_TD_END

@@ -8,6 +8,7 @@ public:
 	CTDMap();
 	virtual bool IniMap( const String& strFile, CCLayer* pLayer ); 
 	virtual Path* GetPath();
+	virtual bool IsVisiblePosition( const IPoint* pt );
 	virtual bool LoadMap(const String& strFile);
 	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXTiledMap*, _tileMap, TileMap);
 	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXLayer*, _background, Background);
@@ -17,7 +18,6 @@ protected:
 
 class CTDMapMgr : public ITDMapMgr{
 public:
-	virtual ITDMap* GetMap( const String& strName ){ return 0;}
 	virtual bool Ini( const String& strPath ){return false;}
 	virtual TDMapWeakPtr add( const String& key, const string& strType ){
 		ITDMap* pMap = new CTDMap();	

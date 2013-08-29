@@ -13,17 +13,12 @@ public:
 
 	virtual void ChangeState( const String& strState ){}
 
-	virtual void Update(  float dt );
+	virtual void update(  float dt );
 
 	static ITDObject* create( const String& strType, int nX, int nY, const char* pszFileName );
 
 	static ITDObject* create( const String& strType, const char* pszFileName );
 
 	static ITDObject* create( const String& strType, int nX, int nY, CCTexture2D* pTextrue2D );
-};
-
-class ISkill : public ITDObject{
-public:
-
 };
 NAMESPACE_TD_END

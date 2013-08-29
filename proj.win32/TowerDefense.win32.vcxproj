@@ -141,7 +141,9 @@
     <ClInclude Include="..\Classes\god.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\interfacedef.h" />
+    <ClInclude Include="..\Classes\level.h" />
     <ClInclude Include="..\Classes\map.h" />
+    <ClInclude Include="..\Classes\skill.h" />
     <ClInclude Include="..\Classes\system.h" />
     <ClInclude Include="..\Classes\templclassdef.h" />
     <ClInclude Include="..\Classes\tower.h" />
@@ -157,7 +159,9 @@
     <ClCompile Include="..\Classes\FinishSes.cpp" />
     <ClCompile Include="..\Classes\god.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\level.cpp" />
     <ClCompile Include="..\Classes\map.cpp" />
+    <ClCompile Include="..\Classes\skill.cpp" />
     <ClCompile Include="..\Classes\system.cpp" />
     <ClCompile Include="..\Classes\templclassdef.cpp" />
     <ClCompile Include="..\Classes\tower.cpp" />

@@ -20,8 +20,6 @@ public:
 
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
-	void update( float ct );
-
 	// implement the "static node()" method manually
 	CREATE_FUNC(HelloWorld);
 

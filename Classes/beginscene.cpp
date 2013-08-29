@@ -59,6 +59,7 @@ bool CBegin::init()
 	// add a label shows "Hello World"
 	// create and initialize a label
 
+
 	CCLabelTTF* pLabel = CCLabelTTF::create("Tower Defense", "Arial", TITLE_FONT_SIZE);
 
 	// position the label on the center of the screen
@@ -68,26 +69,13 @@ bool CBegin::init()
 	// add the label as a child to this layer
 	this->addChild(pLabel, 1);
 
-	p = CCSprite::create("2.png");
-	this->addChild(p);
-
-	CCRepeatForever* pAction = CCRepeatForever::create( CCSequence::create( CCMoveTo::create(5,ccp(200,200)), CCMoveTo::create(5,ccp(0,0)),NULL ) ) ;
-
-	pAction->setTag( 0 );
-	p->runAction( pAction );
-
-
 	return true;
 }
 
 US_TD
 void CBegin::menuCloseCallback(CCObject* pSender)
 {
-	CCSpeed* action = CCSpeed::create( (CCRepeatForever*)p->getActionByTag(0), 5 );
-
-	p->runAction( action );
-
-	//CCDirector::sharedDirector()->pushScene( HelloWorld::scene() );
+	CCDirector::sharedDirector()->pushScene( HelloWorld::scene() );
 }
 
 void CBegin::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)

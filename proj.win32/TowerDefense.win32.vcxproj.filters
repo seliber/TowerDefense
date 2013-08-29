@@ -85,6 +85,12 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\level.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\skill.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\actionmgr.cpp">
@@ -125,6 +131,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\level.cpp">
+      <Filter>include\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\skill.cpp">
+      <Filter>include\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
