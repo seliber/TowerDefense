@@ -11,7 +11,7 @@ public:
 public:
 	ITower( const String& strType );
 
-	virtual void ChangeState( const String& strState ){}
+	virtual void ChangeState( const String& strState );
 
 	virtual void update(  float dt );
 
@@ -20,5 +20,7 @@ public:
 	static ITDObject* create( const String& strType, const char* pszFileName );
 
 	static ITDObject* create( const String& strType, int nX, int nY, CCTexture2D* pTextrue2D );
+
+	virtual void End();
 };
 NAMESPACE_TD_END

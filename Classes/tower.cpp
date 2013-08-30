@@ -34,19 +34,35 @@ ITDObject* ITower::create( const String& strType, int nX, int nY, CCTexture2D* p
 	return pBody;
 }
 
+void ITower::ChangeState( const String& strState )
+{
+	CCActionInterval*  action1 = CCTintTo::create(0.3, 255, 0, 255);
+	CCActionInterval*  action2 = CCTintBy::create(0.3, -127, -255, -127);
+	CCActionInterval*  action2Back = action2->reverse();
+
+	runAction( action1);
+	runAction( CCSequence::create( action2, action2Back, NULL));
+
+}
+
 void ITower::update( float dt )
 {
-	static float time = 0;
-	time+= dt;
-	if ( time < 1 )
-	{
-		return;
-	}
-	time = 0;
+// 	static float time = 0;
+// 	time+= dt;
+// 	if ( time < 1 )
+// 	{
+// 		return;
+// 	}
+// 	time = 0;
 	if ( m_pAI != 0 )
 	{
 		m_pAI->Update( dt, this );
 	}
+}
+
+void ITower::End()
+{
+	
 }
 
 NAMESPACE_TD_END

@@ -61,13 +61,15 @@ bool CSystem::Start( const String& strMap, CCLayer* pLayer )
 	{
 		return false;
 	}
+	shtdmap->DecorateLayer( pLayer );
 	TDLevelWeakPtr level;
 	if ( ITDLevelMgr::GetSingletonPtr()->get( strMap, level ) )
 	{
 		TDLevelSharePtr shLevel = level.lock();
 		if ( shLevel )
  		{
-			shLevel->Start( pLayer,shtdmap->GetPath() );
+
+			shLevel->Start( pLayer,tdmap );
 		}
 	}
 	return true;

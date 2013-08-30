@@ -7,17 +7,17 @@ class CLevel : public ITDLevel{
 public:
 	CLevel();
 	virtual void update(float delta);
-	virtual bool Start( ILayer* pLayer, Path* pPath );
+	virtual bool Start( ILayer* pLayer, TDMapWeakPtr pPath );
 	virtual bool End();
+	virtual void ObjectFinished( CCNode* pNode );
 	DEF_MEMBER( unsigned int, m_wEnemyCount, EnemyCount)
 	DEF_MEMBER( unsigned int, m_wCurrentIndex, CurrentIndex)
 	DEF_MEMBER( unsigned int, m_wTimeInterval, TimeInterval)
-	DEF_MEMBER( IPoint, m_ptOrigin, Origin )
+	DEF_MEMBER( TDMapWeakPtr, m_pMap, Map )
 protected:
 	virtual bool LoadLevel( const String& strFile ){ return false;}
 private:
 	CCLayer* m_pLayer;
-	Path* m_pPath;
 };
 
 class CLevelMgr : public ITDLevelMgr{

@@ -7,7 +7,7 @@ const String ISkill::strTypeSkill = "Skill";
 template<> CSkillMgr* CSingleton<CSkillMgr>::m_psSingleton = NULL;
 
 ISkill::ISkill( const String& strType ) : ITDObject( strType ){
-
+	 m_ptSpeed = ccp(5,5);
 }
 
 ITDObject* ISkill::create( const String& strName, TDObjectWeakPtr source, TDObjectWeakPtr target )
@@ -19,7 +19,7 @@ ITDObject* ISkill::create( const String& strName, TDObjectWeakPtr source, TDObje
 	return pSkill;
 }
 
-IPoint speed = ccp( 2,2);
+
 bool collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointTwo, float radiusTwo)
 {	
 	float xdif = circlePoint.x - circlePointTwo.x;
@@ -37,17 +37,16 @@ bool collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointT
 float ISkill::calcAngle(CCPoint target) {
 	float r = 0;
 	CCPoint p2 = ccpSub(target, this->getPosition());
-	r = ccpAngle(speed, p2); //计算夹角r是弧度值，不是角度值
+	r = ccpAngle(m_ptSpeed, p2); //计算夹角r是弧度值，不是角度值
 	return r;
-
 }
 
 RotateDirection ISkill::calcDirection(CCPoint target) {
 	CCPoint p2 = ccpSub(target, this->getPosition());
-	if (ccpCross(speed, p2) > 0) {
+	if (ccpCross(m_ptSpeed, p2) > 0) {
 		// 在opengl的右手坐标系中，向量叉乘大于0表示逆时针方向
 		return COUNTERCLOCKWISE;
-	} else if (ccpCross(speed, p2) < 0) {
+	} else if (ccpCross(m_ptSpeed, p2) < 0) {
 		return CLOCKWISE;
 	} else {
 		return NO_ROTATE;
@@ -72,12 +71,12 @@ void ISkill::move( CCPoint ptTarget ) {
 	//step 2:确定方向
 	switch (calcDirection( ptTarget )) {
 	case COUNTERCLOCKWISE: {
-		speed = ccpRotateByAngle(speed, ccp(0,0), deltaR);
+		m_ptSpeed = ccpRotateByAngle(m_ptSpeed, ccp(0,0), deltaR);
 	//	this->setRotation(this->getRotation() - deltaD);
 		break;
 						   }
 	case CLOCKWISE: {
-		speed = ccpRotateByAngle(speed, ccp(0,0), -deltaR);
+		m_ptSpeed = ccpRotateByAngle(m_ptSpeed, ccp(0,0), -deltaR);
 	//	this->setRotation(this->getRotation() + deltaD);
 		break;
 					}
@@ -85,7 +84,7 @@ void ISkill::move( CCPoint ptTarget ) {
 		break;
 	}
 		
-	this->setPosition(ccpAdd(getPosition(), speed));
+	this->setPosition(ccpAdd(getPosition(), m_ptSpeed));
 }
 
 void ISkill::update( float dt )
@@ -95,7 +94,7 @@ void ISkill::update( float dt )
 	if ( shptrTarget == 0 || shptrSource == 0 )
 	{
 		this->removeFromParentAndCleanup( true );
-		CSkillMgr::GetSingletonPtr()->remove( m_uID );
+	//	CSkillMgr::GetSingletonPtr()->remove( m_uID );
 		return;
 	}
 
@@ -104,13 +103,14 @@ void ISkill::update( float dt )
 	if ( collisionWithCircle( this->getPosition(), 10, shptrTarget->getPosition(), 10 ) )
 	{
 		this->removeFromParentAndCleanup( true );
+		shptrTarget->ChangeState("");
 		//CSkillMgr::GetSingletonPtr()->remove( m_uID );
-		shptrTarget->m_nHP--;
-		if ( shptrTarget->m_nHP == 0 )
-		{
+// 		shptrTarget->m_nHP--;
+// 		if ( shptrTarget->m_nHP == 0 )
+// 		{
 			shptrTarget->removeFromParentAndCleanup( true );
 			ITDGod::GetSingletonPtr()->Remove( m_pTargetObject );
-		}	
+// 		}	
 		return;
 	}
 	//this->stopAllActions();

@@ -30,6 +30,7 @@ protected:
 	void move( CCPoint ptTarget );
 	DEF_MEMBER( TDObjectWeakPtr, m_pSourceObject, SourceObject )
 	DEF_MEMBER( TDObjectWeakPtr, m_pTargetObject, TargetObject )
+	DEF_MEMBER( IPoint, m_ptSpeed, Speed)
 	friend class CSkillMgr;
 };
 

@@ -100,7 +100,6 @@ public:
 		if ( itr != m_mapData.end() )
 		{
 			itr->second.reset();
-			cout << itr->second.use_count() << endl;
 			m_mapData.erase( itr );
 			return true;
 		}

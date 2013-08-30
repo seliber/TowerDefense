@@ -20,6 +20,7 @@ class ITDObject : public ISprite{
 public:
 	ITDObject(const String& strType ) : m_pAI(0), m_strType( strType), m_strState("") {}
 	virtual void ChangeState( const String& strState ) = 0;	
+	virtual void End(){}
 	int m_nHP;
 protected:
 	String m_strState;
@@ -27,7 +28,7 @@ protected:
 
 typedef weak_ptr<ITDObject> TDObjectWeakPtr;
 typedef shared_ptr<ITDObject> TDObjectSharePtr;
-class ITDGod : public CSingleton<ITDGod>{
+class ITDGod : public CSingleton<ITDGod>, public CCObject{
 	DEF_MEMBER( CCLayer*, m_pLayer, Layer)
 public:
 	virtual TDObjectWeakPtr Create( const String& strType, const String& strName ) = 0;
@@ -41,8 +42,9 @@ public:
 class ITDMap : public INode{
 	DEF_MEMBER( CCLayer*, m_pLayer, Layer)
 public:
-	virtual Path* GetPath() = 0;
+	virtual Path* GetPath( ID id = 0 ) = 0;
 	virtual bool IsVisiblePosition( const IPoint* pt ) = 0;
+	virtual bool DecorateLayer( ILayer* pLayer ) = 0;
 protected:
 	virtual bool LoadMap( const String& strFile) = 0;  
 	friend class ITDMapMgr;
@@ -66,8 +68,9 @@ public:
 
 class ITDLevel : public INode{
 public:
-	virtual bool Start( ILayer* pLayer, Path* pPath ) = 0;
+	virtual bool Start( ILayer* pLayer, TDMapWeakPtr pMap ) = 0;
 	virtual bool End() = 0;
+	virtual void ObjectFinished( CCNode* pNode ) = 0;
 protected:
 	virtual bool LoadLevel( const String& strFile ) = 0;
 	friend class ITDLevelMgr;

@@ -6,14 +6,15 @@ NAMESPACE_TD_BEGIN
 class CTDMap : public ITDMap{
 public:
 	CTDMap();
-	virtual bool IniMap( const String& strFile, CCLayer* pLayer ); 
-	virtual Path* GetPath();
+	virtual Path* GetPath( ID id = 0 );
 	virtual bool IsVisiblePosition( const IPoint* pt );
 	virtual bool LoadMap(const String& strFile);
+	virtual bool DecorateLayer( ILayer* pLayer );
 	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXTiledMap*, _tileMap, TileMap);
 	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXLayer*, _background, Background);
 protected:
-	Path* m_pPath;
+	typedef vector<Path*> PathContainer;
+	PathContainer m_vecPath;
 };
 
 class CTDMapMgr : public ITDMapMgr{

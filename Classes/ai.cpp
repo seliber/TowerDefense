@@ -29,17 +29,18 @@ bool CAttackAi::DoAi( void* param )
 		return false;
 	}
 	
-	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 200, shptrTarget->getPosition(), 50 );
+	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 50, shptrTarget->getPosition(), 50 );
 	if ( bCanAttack )
 	{
 		TDObjectWeakPtr weakptr;
 		bool bRet = ITDGod::GetSingletonPtr()->GetObject( m_pSourceObject->getType(), m_pSourceObject->m_uID, weakptr );
 		if ( bRet )
 		{
-			return CSkillMgr::GetSingletonPtr()->CreateSkill( "", weakptr, *pObject );
+			CSkillMgr::GetSingletonPtr()->CreateSkill( "", weakptr, *pObject );
 		}
+		return false;
 	}
-	return false;
+	return true;
 }
 
 bool CAttackAi::collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointTwo, float radiusTwo)
