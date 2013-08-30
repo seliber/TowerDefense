@@ -3,6 +3,11 @@
 #include "interfacedef.h"
 
 NAMESPACE_TD_BEGIN
+typedef enum emRotateDirection{
+		COUNTERCLOCKWISE,
+		CLOCKWISE,
+		NO_ROTATE
+}RotateDirection;
 class ISkill : public ITDObject
 {
 	ISkill( const String& strType );
@@ -19,10 +24,15 @@ public:
 
 //	static ITDObject* create( const String& strName, TDObjectWeakPtr source, CCPoint pt );
 
+protected:
+	RotateDirection calcDirection(CCPoint target);
+	float calcAngle(CCPoint target);
+	void move( CCPoint ptTarget );
 	DEF_MEMBER( TDObjectWeakPtr, m_pSourceObject, SourceObject )
 	DEF_MEMBER( TDObjectWeakPtr, m_pTargetObject, TargetObject )
 	friend class CSkillMgr;
 };
+
 
 typedef weak_ptr<ISkill> SkillWeakPtr;
 typedef shared_ptr<ISkill> SkillSharePtr;

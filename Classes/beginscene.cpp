@@ -69,6 +69,10 @@ bool CBegin::init()
 	// add the label as a child to this layer
 	this->addChild(pLabel, 1);
 
+	CCPoint pt = ccp(0, 0);
+	CCPoint pt2 = ccp(100,100);
+	float angle = ccpAngle( pt,pt2 );
+	CCPoint pt3 = ccpRotateByAngle( pt, ccp(10,0), angle );
 	return true;
 }
 

@@ -20,6 +20,7 @@ class ITDObject : public ISprite{
 public:
 	ITDObject(const String& strType ) : m_pAI(0), m_strType( strType), m_strState("") {}
 	virtual void ChangeState( const String& strState ) = 0;	
+	int m_nHP;
 protected:
 	String m_strState;
 };

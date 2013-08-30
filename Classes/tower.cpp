@@ -6,7 +6,7 @@ const String ITower::strTypeEnemy = "Enemy";
 const String ITower::strTypeTower = "Tower";
 
 ITower::ITower( const String& strType ) : ITDObject( strType ){
-
+	m_nHP = 10;
 }
 
 ITDObject* ITower::create( const String& strType, const char* pszFileName )
@@ -36,6 +36,13 @@ ITDObject* ITower::create( const String& strType, int nX, int nY, CCTexture2D* p
 
 void ITower::update( float dt )
 {
+	static float time = 0;
+	time+= dt;
+	if ( time < 1 )
+	{
+		return;
+	}
+	time = 0;
 	if ( m_pAI != 0 )
 	{
 		m_pAI->Update( dt, this );

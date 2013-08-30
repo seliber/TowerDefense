@@ -29,7 +29,7 @@ bool CAttackAi::DoAi( void* param )
 		return false;
 	}
 	
-	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 100, shptrTarget->getPosition(), 50 );
+	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 200, shptrTarget->getPosition(), 50 );
 	if ( bCanAttack )
 	{
 		TDObjectWeakPtr weakptr;

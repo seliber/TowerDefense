@@ -19,7 +19,7 @@ ITDObject* ISkill::create( const String& strName, TDObjectWeakPtr source, TDObje
 	return pSkill;
 }
 
-IPoint speed = ccp( 10,10);
+IPoint speed = ccp( 2,2);
 bool collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointTwo, float radiusTwo)
 {	
 	float xdif = circlePoint.x - circlePointTwo.x;
@@ -34,87 +34,87 @@ bool collisionWithCircle(CCPoint circlePoint, float radius, CCPoint circlePointT
 	return false;	
 }
 
-float calcAngle(IPoint ptSource, IPoint ptTarget) {
+float ISkill::calcAngle(CCPoint target) {
 	float r = 0;
-	CCPoint p2 = ccpSub( ptTarget ,ptSource );
-	r = ccpAngle( ccp(10,10), p2); //计算夹角r是弧度值，不是角度值
+	CCPoint p2 = ccpSub(target, this->getPosition());
+	r = ccpAngle(speed, p2); //计算夹角r是弧度值，不是角度值
 	return r;
+
 }
 
-int calcDirection(IPoint ptSource, IPoint ptTarget) {
-	CCPoint p2 = ccpSub(ptTarget, ptSource);
+RotateDirection ISkill::calcDirection(CCPoint target) {
+	CCPoint p2 = ccpSub(target, this->getPosition());
 	if (ccpCross(speed, p2) > 0) {
 		// 在opengl的右手坐标系中，向量叉乘大于0表示逆时针方向
-		return 0;
+		return COUNTERCLOCKWISE;
 	} else if (ccpCross(speed, p2) < 0) {
-		return 1;
+		return CLOCKWISE;
 	} else {
-		return 2;
+		return NO_ROTATE;
 	}
 }
 
-void move(IPoint ptSource, IPoint mTarget)
-{
-	do {
-		if (mTarget) {
-			//step 1:确定角度
-			//计算夹角r是弧度值，不是角度值
-			float _rad = calcAngle( ptSource, mTarget ); 
+void ISkill::move( CCPoint ptTarget ) {
+
+	//step 1:确定角度
+	//计算夹角r是弧度值，不是角度值
+	float _rad = calcAngle(ptTarget); 
+// 	if (_rad && _rad >= PI / 2) {
+// 		//角度大于90的时候放弃，不追踪
+// 		mTarget = NULL;
+// 		break;
+// 	}
+	float _deg = CC_RADIANS_TO_DEGREES(_rad);
+
+	float deltaR = _rad ;//< mDeltaRadians ? _rad : mDeltaRadians;
+	//	float deltaD = _deg < mDeltaDegree ? _deg : mDeltaDegree;
+
+	//step 2:确定方向
+	switch (calcDirection( ptTarget )) {
+	case COUNTERCLOCKWISE: {
+		speed = ccpRotateByAngle(speed, ccp(0,0), deltaR);
+	//	this->setRotation(this->getRotation() - deltaD);
+		break;
+						   }
+	case CLOCKWISE: {
+		speed = ccpRotateByAngle(speed, ccp(0,0), -deltaR);
+	//	this->setRotation(this->getRotation() + deltaD);
+		break;
+					}
+	default:
+		break;
+	}
 		
-			float _deg = CC_RADIANS_TO_DEGREES(_rad);
-
-			float deltaR = _rad;
-			float deltaD = _deg;
-
-			//step 2:确定方向
-			switch (calcDirection( ptSource, mTarget )) {
-			case 0: {
-				speed = ccpRotateByAngle(speed, ccp(0,0), deltaR);
-				/*this->setRotation(this->getRotation() - deltaD);*/
-				break;
-								   }
-			case 1: {
-				speed = ccpRotateByAngle(speed, ccp(0,0), -deltaR);
-				//this->setRotation(this->getRotation() + deltaD);
-				break;
-							}
-			default:
-				break;
-			}
-
-		} else {
-			//seekEnemy();
-		}
-	} while (0);
-//	this->setPosition(ccpAdd( ptSource, speed));
+	this->setPosition(ccpAdd(getPosition(), speed));
 }
-
 
 void ISkill::update( float dt )
 {
-	static float time = 0;
-	time += dt;
-	if ( time < 2 )
-	{
-		return;
-	}
-	time = 0;
 	TDObjectSharePtr shptrSource = m_pSourceObject.lock();
 	TDObjectSharePtr shptrTarget = m_pTargetObject.lock();
 	if ( shptrTarget == 0 || shptrSource == 0 )
 	{
 		this->removeFromParentAndCleanup( true );
+		CSkillMgr::GetSingletonPtr()->remove( m_uID );
 		return;
 	}
+
+	move( shptrTarget->getPosition() );
+
 	if ( collisionWithCircle( this->getPosition(), 10, shptrTarget->getPosition(), 10 ) )
 	{
 		this->removeFromParentAndCleanup( true );
-		shptrTarget->removeFromParentAndCleanup( true );
-		ITDGod::GetSingletonPtr()->Remove( m_pTargetObject );
+		//CSkillMgr::GetSingletonPtr()->remove( m_uID );
+		shptrTarget->m_nHP--;
+		if ( shptrTarget->m_nHP == 0 )
+		{
+			shptrTarget->removeFromParentAndCleanup( true );
+			ITDGod::GetSingletonPtr()->Remove( m_pTargetObject );
+		}	
 		return;
 	}
-	this->stopAllActions();
-	this->runAction( CCMoveTo::create( 3, shptrTarget->getPosition() ) );
+	//this->stopAllActions();
+	//this->runAction( CCMoveTo::create( 1/60, shptrTarget->getPosition() ) );
 }
 
 
@@ -129,9 +129,10 @@ bool CSkillMgr::CreateSkill( const String& strName, TDObjectWeakPtr source, TDOb
 		if ( shptr )
 		{		
 			shptr->setSourceObject( source ); 
-			shptr->setTargetObject( target );		
+			shptr->setTargetObject( target );	
+			shptr->setPosition( objshptr->getPosition() );
 			objshptr->getParent()->addChild( (INode*)shptr.get() );
-			shptr->scheduleUpdateWithPriority( 4 );
+			shptr->scheduleUpdate();
 		}
 	}
 

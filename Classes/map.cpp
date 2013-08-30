@@ -10,19 +10,10 @@ CTDMap::CTDMap(){
 	m_pPath = new CCPointArray();
 	m_pPath->initWithCapacity( 30 );
 	m_pPath->addControlPoint( ccp(50,50) );
-	m_pPath->addControlPoint( ccp(100,50) );
-	m_pPath->addControlPoint( ccp(150,50) );
-	m_pPath->addControlPoint( ccp(200,50) );
-	m_pPath->addControlPoint( ccp(250,50) );
 	m_pPath->addControlPoint( ccp(300,50) );
-	m_pPath->addControlPoint( ccp(350,50) );
-	m_pPath->addControlPoint( ccp(400,50) );
-	m_pPath->addControlPoint( ccp(400,100) );
-	m_pPath->addControlPoint( ccp(400,150) );
-	m_pPath->addControlPoint( ccp(400,200) );
-	m_pPath->addControlPoint( ccp(400,250) );
-	m_pPath->addControlPoint( ccp(400,300) );
-
+	m_pPath->addControlPoint( ccp(300,300) );
+	m_pPath->addControlPoint( ccp(50,300) );
+	m_pPath->addControlPoint( ccp(50,50) );
 }
 
 Path* CTDMap::GetPath()

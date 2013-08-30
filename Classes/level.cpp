@@ -3,7 +3,7 @@
 NAMESPACE_TD_BEGIN
 template<> ITDLevelMgr* CSingleton<ITDLevelMgr>::m_psSingleton = NULL;
 
-CLevel::CLevel():m_pLayer(0), m_pPath(0),m_wCurrentIndex(0),m_wEnemyCount(10),m_wTimeInterval(1){
+CLevel::CLevel():m_pLayer(0), m_pPath(0),m_wCurrentIndex(0),m_wEnemyCount(2),m_wTimeInterval(5){
 
 }
 void CLevel::update(float delta)
@@ -31,30 +31,18 @@ void CLevel::update(float delta)
 			animation->addSpriteFrameWithFileName("3.png");
 			animation->addSpriteFrameWithFileName("2.png");
 			animation->addSpriteFrameWithFileName("3.png");
-			animation->addSpriteFrameWithFileName("2.png");
-			animation->addSpriteFrameWithFileName("3.png");
-			animation->addSpriteFrameWithFileName("2.png");
-			animation->addSpriteFrameWithFileName("3.png");
-			animation->addSpriteFrameWithFileName("2.png");
-			animation->addSpriteFrameWithFileName("3.png");
-			animation->addSpriteFrameWithFileName("2.png");
-			animation->addSpriteFrameWithFileName("3.png");
-
+	
 			// should last 2.8 seconds. And there are 14 frames.
 			animation->setDelayPerUnit(2.8f / 14.0f);
 			animation->setRestoreOriginalFrame(true);
 
 			CCAnimate* action = CCAnimate::create(animation);
-			CCCardinalSplineTo *action2 = CCCardinalSplineTo::create(5, m_pPath, 1 );
+			CCCardinalSplineTo *action2 = CCCardinalSplineTo::create(30, m_pPath, 1 );
 			CCCardinalSplineTo* reverse2 = (CCCardinalSplineTo*)action2->reverse();		
 			//	CCSequence *seq2 = CCSequence::create(action2, reverse2, NULL);
 			shptr->runAction(
-				CCSequence::create(
-				action,
-				action2,
-				//	reverse2,
-//				CCCallFuncN::create( ptr, callfuncN_selector( ITDObject::End )),
-				NULL));
+				CCRepeatForever::create(
+				CCSequence::create( action, action2,NULL)));
 			m_wCurrentIndex++;
 		} while (0);
 	}	
