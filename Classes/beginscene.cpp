@@ -20,7 +20,13 @@ CCScene* CBegin::scene()
 	// return the scene
 	return scene;
 }
-CCSprite* p;
+class CTest : public CCSprite{
+public:
+	void update(float dt){
+		this->removeFromParentAndCleanup( true );
+	}
+};
+
 // on "init" you need to initialize your instance
 bool CBegin::init()
 {
@@ -69,10 +75,29 @@ bool CBegin::init()
 	// add the label as a child to this layer
 	this->addChild(pLabel, 1);
 
-	CCPoint pt = ccp(0, 0);
-	CCPoint pt2 = ccp(100,100);
-	float angle = ccpAngle( pt,pt2 );
-	CCPoint pt3 = ccpRotateByAngle( pt, ccp(10,0), angle );
+	//CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("enemy.plist");
+//	CCSprite* pSprite = CCSprite::createWithSpriteFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("filename_1.png"));
+
+// 	CCAnimation* animation = CCAnimation::create();
+// 	for ( int i = 1; i < 19; i++ )
+// 	{
+// 		char szName[100] = {0};
+// 		sprintf(szName, "filename_%d.png", i);
+// 		animation->addSpriteFrame( CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(szName));
+// 	}
+// 
+// 	pSprite->setPosition( ccp(200,200) );
+// 	// should last 2.8 seconds. And there are 14 frames.
+// 	animation->setDelayPerUnit(0.1);
+// 	animation->setRestoreOriginalFrame(true);
+// 
+// 	CCAnimate* action = CCAnimate::create(animation);
+// // 	CCCardinalSplineTo *action2;
+// // 
+// // 	CCCardinalSplineTo* reverse2 = (CCCardinalSplineTo*)action2->reverse();		
+// 	pSprite->runAction( CCRepeatForever::create( action ) );
+
+	//this->addChild( pSprite );
 	return true;
 }
 

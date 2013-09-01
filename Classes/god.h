@@ -6,28 +6,21 @@ NAMESPACE_TD_BEGIN
 
 class CTDGod : public ITDGod{
 public:
-	class CTowerFactory : public IContainer_SharePtr<unsigned int, ITDObject>{
-	public:	
-		virtual TDObjectWeakPtr add( const unsigned int& key, const string& strType );
-	protected:
-		virtual void makeAi( ITDObject* ptr );
-	};
-	class CEnemyFactory : public IContainer_SharePtr<unsigned int, ITDObject>{
-	public:	
-		virtual TDObjectWeakPtr add( const unsigned int& key, const string& strType );
-	protected:
-		virtual void makeAi( ITDObject* ptr );
-	};
-public:
 	CTDGod();
-	virtual bool Ini( const String& strPath ){return false;}
-	virtual TDObjectWeakPtr Create( const String& strType, const String& strName );
-	virtual void Remove( const String& strType, ID id );
-	virtual void Remove( TDObjectWeakPtr ptr );
-	virtual bool Traversal( const String& strType, CDelegateBase* pFun );
-	virtual bool GetObject( const String& strType, ID id, TDObjectWeakPtr& ptr );
-private:
-	CTowerFactory* m_pTowerFactory;
-	CEnemyFactory* m_pEnemyFactory;
+	~CTDGod();
+	virtual ITDObject* Create( const String& strName, INode* pNode, const String& strType = "Enemy" );
+	virtual void Remove( ID id, const String& strType = "" );
+	virtual void Remove( ITDObject* pObject );
+	virtual bool Traversal( CDelegateBase* pFun, const String& strType = "" );
+	virtual bool Ini( const String& strPath );
+	virtual ITDObject* GetObject( ID id, const String& strType = "" );
+
+protected:
+	virtual bool RemoveFromArray( cocos2d::CCArray* pArray, ID id );
+	virtual bool TraversalFromArray( cocos2d::CCArray* pArray, CDelegateBase* pFun );
+	virtual ITDObject* GetObjecFromArray( cocos2d::CCArray* pArray, ID id );
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCArray*, m_pTower, Towers );	
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCDictionary*, m_pSpriteBatchNode, SpriteBatchNode );	
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCArray*, m_pEnemy, Enemys );	
 };
 NAMESPACE_TD_END

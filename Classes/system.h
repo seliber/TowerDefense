@@ -13,6 +13,5 @@ public:
 	bool Resume();
 	bool End();
 public:
-	CCLayer* m_pLayer;
 };
 NAMESPACE_TD_END

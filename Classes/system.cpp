@@ -42,37 +42,23 @@ bool CSystem::Launch( const String& strSourcePath )
 	ITDMapMgr::GetSingletonPtr()->Ini( strSourcePath );
 	ITDLevelMgr::GetSingletonPtr()->Ini( strSourcePath );
 	ITDGod::GetSingletonPtr()->Ini( strSourcePath );
-
-	ITDMapMgr::GetSingletonPtr()->add("1","1");
-	ITDLevelMgr::GetSingletonPtr()->add("1","1");
+	IAiMgr::GetSingletonPtr()->Ini( strSourcePath );
 	return false;
 }
 
 bool CSystem::Start( const String& strMap, CCLayer* pLayer )
 {
-	m_pLayer = pLayer;
-	TDMapWeakPtr tdmap;
-	if ( !ITDMapMgr::GetSingletonPtr()->get( strMap, tdmap) )
+	ITDMap* pMap = ITDMapMgr::GetSingletonPtr()->GetMap(0);
+	if ( pMap )
 	{
-		return false;
-	}
-	TDMapSharePtr shtdmap = tdmap.lock();
-	if ( !shtdmap )
-	{
-		return false;
-	}
-	shtdmap->DecorateLayer( pLayer );
-	TDLevelWeakPtr level;
-	if ( ITDLevelMgr::GetSingletonPtr()->get( strMap, level ) )
-	{
-		TDLevelSharePtr shLevel = level.lock();
-		if ( shLevel )
- 		{
-
-			shLevel->Start( pLayer,tdmap );
+		pMap->DecorateLayer( pLayer );
+		ITDLevel* pLevel = ITDLevelMgr::GetSingletonPtr()->GetLevel(0);
+		if ( pLevel  )
+		{
+			return pLevel->Start( pLayer, pMap );
 		}
 	}
-	return true;
+	return false;
 }
 
 bool CSystem::Pause()

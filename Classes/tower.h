@@ -7,19 +7,38 @@ class ITower : public ITDObject
 {
 public:
 	static const String strTypeTower;
-	static const String strTypeEnemy;
 public:
-	ITower( const String& strType );
+	ITower();
 
 	virtual void ChangeState( const String& strState );
 
 	virtual void update(  float dt );
 
-	static ITDObject* create( const String& strType, int nX, int nY, const char* pszFileName );
+	static ITDObject* create( int nX, int nY, const String& strFileName );
 
-	static ITDObject* create( const String& strType, const char* pszFileName );
+	static ITDObject* create( const String& strFileName );
 
-	static ITDObject* create( const String& strType, int nX, int nY, CCTexture2D* pTextrue2D );
+	static ITDObject* create( CCTexture2D* pTextrue2D );
+
+	virtual void End();
+};
+
+class IEnemy : public ITDObject
+{
+public:
+	static const String strTypeEnemy;
+public:
+	IEnemy();
+
+	virtual void ChangeState( const String& strState );
+
+	virtual void update(  float dt );
+
+	static ITDObject* create( int nX, int nY, const String& strFileName );
+
+	static ITDObject* create( const String& strFileName );
+
+	static ITDObject* create( CCTexture2D* pTextrue2D );
 
 	virtual void End();
 };

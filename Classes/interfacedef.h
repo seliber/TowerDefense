@@ -9,6 +9,7 @@ typedef CCLayer ILayer;
 typedef CCPoint IPoint;
 typedef CCPointArray Path;
 typedef unsigned int ID;
+typedef CCObject IObject;
 
 NAMESPACE_TD_BEGIN
 class ITDObject;
@@ -26,21 +27,18 @@ protected:
 	String m_strState;
 };
 
-typedef weak_ptr<ITDObject> TDObjectWeakPtr;
-typedef shared_ptr<ITDObject> TDObjectSharePtr;
-class ITDGod : public CSingleton<ITDGod>, public CCObject{
+class ITDGod : public CSingleton<ITDGod>, public IObject{
 	DEF_MEMBER( CCLayer*, m_pLayer, Layer)
 public:
-	virtual TDObjectWeakPtr Create( const String& strType, const String& strName ) = 0;
-	virtual void Remove( const String& strType, ID id ) = 0;
-	virtual void Remove( TDObjectWeakPtr ptr ) = 0;
-	virtual bool Traversal( const String& strType, CDelegateBase* pFun ) = 0;
+	virtual ITDObject* Create( const String& strName, INode* pNode, const String& strType = "Enemy" ) = 0;
+	virtual void Remove( ID id, const String& strType = "" ) = 0;
+	virtual void Remove( ITDObject* pObject ) = 0;
+	virtual bool Traversal( CDelegateBase* pFun, const String& strType = "" ) = 0;
 	virtual bool Ini( const String& strPath ) = 0;
-	virtual bool GetObject( const String& strType, ID id, TDObjectWeakPtr& ptr ) = 0;
+	virtual ITDObject* GetObject( ID id, const String& strType = "" ) = 0;
 };
 
 class ITDMap : public INode{
-	DEF_MEMBER( CCLayer*, m_pLayer, Layer)
 public:
 	virtual Path* GetPath( ID id = 0 ) = 0;
 	virtual bool IsVisiblePosition( const IPoint* pt ) = 0;
@@ -50,11 +48,11 @@ protected:
 	friend class ITDMapMgr;
 };
 
-typedef weak_ptr<ITDMap> TDMapWeakPtr;
-typedef shared_ptr<ITDMap> TDMapSharePtr;
-class ITDMapMgr : public CSingleton<ITDMapMgr>,public IContainer_SharePtr<String,ITDMap>{
+
+class ITDMapMgr : public CSingleton<ITDMapMgr>{
 public:
 	virtual bool Ini( const String& strPath ) = 0;
+	virtual ITDMap* GetMap(unsigned int wIndex ) = 0;
 };
 
 
@@ -68,32 +66,30 @@ public:
 
 class ITDLevel : public INode{
 public:
-	virtual bool Start( ILayer* pLayer, TDMapWeakPtr pMap ) = 0;
+	virtual bool Start( ILayer* pLayer, ITDMap* pMap ) = 0;
 	virtual bool End() = 0;
-	virtual void ObjectFinished( CCNode* pNode ) = 0;
 protected:
 	virtual bool LoadLevel( const String& strFile ) = 0;
 	friend class ITDLevelMgr;
 };
 
-typedef weak_ptr<ITDLevel> TDLevelWeakPtr;
-typedef shared_ptr<ITDLevel> TDLevelSharePtr;
-class ITDLevelMgr : public CSingleton<ITDLevelMgr>, public IContainer_SharePtr<String,ITDLevel>
+class ITDLevelMgr : public CSingleton<ITDLevelMgr>
 {
 public:
 	virtual bool Ini( const String& strPath ) = 0;
+	virtual ITDLevel* GetLevel( unsigned int wIndex ) = 0;
 };
 
 class IAi : public INode{
 public:
 	virtual void Update( float dt, ITDObject* pObject ) = 0;
+	CC_SYNTHESIZE( String, m_strType, Type )
 };
 
-typedef weak_ptr<IAi> IAiWeakPtr;
-typedef shared_ptr<IAi> IAiSharePtr;
-class IAiMgr : public IContainer_SharePtr<String,IAi>, public CSingleton<IAiMgr>{
+class IAiMgr : public CSingleton<IAiMgr>{
 public:
 	virtual void DecorateObject( ITDObject* pObject ) = 0;
 	virtual bool Ini( const String& strPath ) = 0;
+	virtual IAi* GetAi( const String& strType ) = 0;
 };
 NAMESPACE_TD_END

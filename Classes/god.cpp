@@ -4,98 +4,162 @@
 NAMESPACE_TD_BEGIN
 
 template<> ITDGod* CSingleton<ITDGod>::m_psSingleton = NULL;
+
 CTDGod::CTDGod(){
-	m_pTowerFactory = new CTowerFactory();
-	m_pEnemyFactory = new CEnemyFactory();
+	m_pEnemy = NULL;
+	m_pTower = NULL;
+	m_pSpriteBatchNode = NULL;
+}
+CTDGod::~CTDGod(){
+	CC_SAFE_RELEASE_NULL( m_pEnemy );
+	CC_SAFE_RELEASE_NULL( m_pTower );
+	CC_SAFE_RELEASE_NULL( m_pSpriteBatchNode );
 }
 
-TDObjectWeakPtr CTDGod::Create( const String& strType, const String& strName ){
-	if ( strType == ITower::strTypeEnemy )
-	{
-		return m_pEnemyFactory->add( 0, strName );
-	}
-	return m_pTowerFactory->add( 0, strName );
-}
 
-void CTDGod::Remove(const String& strType, ID id )
-{
+ITDObject* CTDGod::Create( const String& strName, INode* pNode, const String& strType /* = "Enemy" */ ) {
+	ITDObject* pObject = NULL;
 	if ( strType == ITower::strTypeTower )
 	{
-		m_pTowerFactory->remove( id );
+		pObject = ITower::create( "tower.png" );
+		m_pTower->addObject( pObject );
+		pNode->addChild( pObject );
+	}
+	else if ( strType == IEnemy::strTypeEnemy )
+	{
+		pObject = IEnemy::create( "enemy.png" );
+		m_pEnemy->addObject( pObject );
+		pNode->addChild( pObject );
+	}
+	return pObject;
+}
+void CTDGod::Remove( ID id, const String& strType ){
+	
+	if ( strType == "" )
+	{
+		if ( RemoveFromArray( m_pEnemy, id ) == false )
+		{
+			RemoveFromArray( m_pTower, id );
+		}
 	}
 	else
 	{
-		m_pEnemyFactory->remove( id );
+		if ( strType == ITower::strTypeTower )
+		{
+			RemoveFromArray( m_pTower, id );
+		}
+		else
+		{
+			RemoveFromArray( m_pEnemy, id );
+		}
 	}
 }
-void CTDGod::Remove( TDObjectWeakPtr ptr ){
-	TDObjectSharePtr shptr = ptr.lock();
-	if ( shptr )
+void CTDGod::Remove( ITDObject* pObject ){
+	if ( pObject )
 	{
-		Remove( shptr->getType(), shptr->m_uID );
+		if ( pObject->getType() == ITower::strTypeTower )
+		{
+			m_pTower->fastRemoveObject( pObject );
+		}
+		else{
+			m_pEnemy->fastRemoveObject( pObject );
+		}
 	}
+}
+bool CTDGod::Traversal( CDelegateBase* pFun, const String& strType ){
+	if ( strType == "" )
+	{
+		if ( TraversalFromArray( m_pEnemy, pFun ) )
+		{
+			return TraversalFromArray( m_pTower, pFun );
+		}		
+	}
+	else
+	{
+		if ( strType == ITower::strTypeTower )
+		{
+			return TraversalFromArray( m_pTower, pFun );
+		}
+		else if ( strType == IEnemy::strTypeEnemy )
+		{
+			return TraversalFromArray( m_pEnemy, pFun );
+		}
+	}
+	return false;
+}
+bool CTDGod::Ini( const String& strPath ){
+
+	setTowers( CCArray::createWithCapacity(100) );
+	setEnemys( CCArray::createWithCapacity(100) );
+
+	String strFileName = strPath + "source.plist";
+	String strFileName2 = strPath + "source.png"; 
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile( strFileName.c_str(), strFileName2.c_str());
+
+	return 0;
 }
 
-bool CTDGod::Traversal( const String& strType, CDelegateBase* pFun )
-{
-	if ( strType == "Tower" ){
-		m_pTowerFactory->traversal( pFun );
+ITDObject* CTDGod::GetObject( ID id, const String& strType ){
+	if ( strType == "" )
+	{
+		if ( GetObjecFromArray( m_pEnemy, id ) )
+		{
+			return GetObjecFromArray( m_pTower, id );
+		}		
 	}
-	else{
-		m_pEnemyFactory->traversal( pFun );
+	else
+	{
+		if ( strType == ITower::strTypeTower )
+		{
+			return GetObjecFromArray( m_pTower, id );
+		}
+		else if ( strType == IEnemy::strTypeEnemy )
+		{
+			return GetObjecFromArray( m_pEnemy, id );
+		}
+	}
+	return NULL;
+}
+
+
+bool CTDGod::RemoveFromArray( cocos2d::CCArray* pArray, ID id )
+{
+	CCObject *pObject = NULL;
+	CCARRAY_FOREACH(pArray, pObject)
+	{
+		if ( pObject->m_uID == id )
+		{
+			pArray->fastRemoveObject( pObject );
+			return true;
+		}
 	}
 	return false;
 }
 
-bool CTDGod::GetObject( const String& strType, ID id, TDObjectWeakPtr& ptr )
+bool CTDGod::TraversalFromArray( cocos2d::CCArray* pArray, CDelegateBase* pFun )
 {
-	if ( strType == "Tower" ){
-		return m_pTowerFactory->get( id, ptr );
+	CCObject *pObject = NULL;
+	CCARRAY_FOREACH(m_pEnemy, pObject)
+	{	
+		if ( (*pFun)( (void*)pObject ) == false )
+		{
+			return false;
+		}
 	}
-	return m_pEnemyFactory->get( id, ptr );
+	return true;
 }
 
-TDObjectWeakPtr CTDGod::CTowerFactory::add( const unsigned int& key, const string& strType )
+ITDObject* CTDGod::GetObjecFromArray( cocos2d::CCArray* pArray, ID id )
 {
-	ITDObject* pObject = 0;
-	if ( strType == "Tower" )
+	CCObject *pObject = NULL;
+	CCARRAY_FOREACH(pArray, pObject)
 	{
-		pObject = ITower::create( "Tower", "2.png" );
+		if ( pObject->m_uID == id )
+		{
+			return (ITDObject*)pObject;
+		}
 	}
-	else
-	{
-		pObject = ITower::create( "Tower", "2.png" );
-	}
-	makeAi( pObject );
-	TDObjectSharePtr ptr( pObject );
-	m_mapData[pObject->m_uID] = ptr;
-	return TDObjectWeakPtr(ptr);
+	return NULL;
 }
 
-void CTDGod::CTowerFactory::makeAi( ITDObject* ptr )
-{
-	IAiMgr::GetSingletonPtr()->DecorateObject( ptr );
-}
-
-TDObjectWeakPtr CTDGod::CEnemyFactory::add( const unsigned int& key, const string& strType )
-{
-	ITDObject* pObject = 0;
-	if ( strType == "Enemy" )
-	{
-		pObject = ITower::create( "Enemy", "player.png" );
-	}
-	else
-	{
-		pObject = ITower::create( "Enemy", "player.png" );
-	}
-	makeAi( pObject );
-	TDObjectSharePtr ptr( pObject );
-	m_mapData[pObject->m_uID] = ptr;
-	return TDObjectWeakPtr(ptr);
-}
-
-void CTDGod::CEnemyFactory::makeAi( ITDObject* ptr )
-{
-	//IAiMgr::GetSingletonPtr()->DecorateObject( ptr );
-}
 NAMESPACE_TD_END

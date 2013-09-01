@@ -6,25 +6,25 @@ NAMESPACE_TD_BEGIN
 class CTDMap : public ITDMap{
 public:
 	CTDMap();
+	~CTDMap();
 	virtual Path* GetPath( ID id = 0 );
 	virtual bool IsVisiblePosition( const IPoint* pt );
 	virtual bool LoadMap(const String& strFile);
 	virtual bool DecorateLayer( ILayer* pLayer );
-	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXTiledMap*, _tileMap, TileMap);
-	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXLayer*, _background, Background);
+	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXTiledMap*, m_pTileMap, TileMap);
+	CC_SYNTHESIZE_RETAIN(cocos2d::CCTMXLayer*, m_pBackground, Background);
+	CC_SYNTHESIZE_RETAIN(cocos2d::CCArray*, m_pPathes, Pathes);
 protected:
-	typedef vector<Path*> PathContainer;
-	PathContainer m_vecPath;
+	bool LoadPathes();
+	bool LoadPath( const String& strPath );
 };
 
 class CTDMapMgr : public ITDMapMgr{
 public:
-	virtual bool Ini( const String& strPath ){return false;}
-	virtual TDMapWeakPtr add( const String& key, const string& strType ){
-		ITDMap* pMap = new CTDMap();	
-		TDMapSharePtr ptr(pMap);
-		m_mapData[key] = ptr;
-		return TDMapWeakPtr(ptr);
-	}
+	CTDMapMgr();
+	~CTDMapMgr();
+	virtual bool Ini( const String& strPath );
+	virtual ITDMap* GetMap(unsigned int wIndex );
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCArray*, m_pMaps, Maps )
 };
 NAMESPACE_TD_END

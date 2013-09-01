@@ -4,6 +4,11 @@
 #include "skill.h"
 
 NAMESPACE_TD_BEGIN
+const String CAttackAi::strTypeActtack = "Acttack";
+CAttackAi::CAttackAi(){
+	setType( strTypeActtack );
+}
+
 void CAttackAi::Update( float dt, ITDObject* pObject )
 {
 	if ( pObject == 0 )
@@ -11,34 +16,22 @@ void CAttackAi::Update( float dt, ITDObject* pObject )
 		return;
 	}
 	m_pSourceObject = pObject;
-	ITDGod::GetSingletonPtr()->Traversal( "Enemy",&CDelegate<CAttackAi>(this, &CAttackAi::DoAi ) );
+	ITDGod::GetSingletonPtr()->Traversal( &CDelegate<CAttackAi>(this, &CAttackAi::DoAi ),"Enemy" );
 }
 
 bool CAttackAi::DoAi( void* param )
 {
-	TDObjectWeakPtr* pObject = (TDObjectWeakPtr*)param;
-
-	if ( pObject == 0 )
-	{
-		return false;
-	}
-	TDObjectSharePtr shptrTarget = pObject->lock();
-
-	if ( shptrTarget == 0 )
+	ITDObject* pTargetObject = (ITDObject*)param;
+	if ( pTargetObject == 0 )
 	{
 		return false;
 	}
 	
-	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 50, shptrTarget->getPosition(), 50 );
+	bool bCanAttack = collisionWithCircle( m_pSourceObject->getPosition(), 50, pTargetObject->getPosition(), 50 );
 	if ( bCanAttack )
-	{
-		TDObjectWeakPtr weakptr;
-		bool bRet = ITDGod::GetSingletonPtr()->GetObject( m_pSourceObject->getType(), m_pSourceObject->m_uID, weakptr );
-		if ( bRet )
-		{
-			CSkillMgr::GetSingletonPtr()->CreateSkill( "", weakptr, *pObject );
-		}
-		return false;
+	{	
+		CSkillMgr::GetSingletonPtr()->CreateSkill( "", m_pSourceObject, pTargetObject );	
+		return true;
 	}
 	return true;
 }

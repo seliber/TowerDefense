@@ -33,14 +33,16 @@ bool HelloWorld::init()
 		return false;
 	}
 	this->setTouchEnabled(true);
-	CSystem::GetSingletonPtr()->Launch( "1" );
+	CSystem::GetSingletonPtr()->Launch( "map1\\" );
 	CSystem::GetSingletonPtr()->Start( "1", this );
+	
+
 	return true;
 }
 
 void HelloWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-
+	
 }
 
 void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
@@ -49,13 +51,13 @@ void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 	CCTouch* touch = (CCTouch*)(*it);
 	CCPoint location = touch->getLocation();
 
-	TDObjectWeakPtr ptr = ITDGod::GetSingletonPtr()->Create( "Tower", "Tower" );
-	TDObjectSharePtr shptr = ptr.lock();
-	if ( shptr )
+	ITDObject* ptr = ITDGod::GetSingletonPtr()->Create( "Tower", this, "Tower" );
+
+	if ( ptr )
 	{    
-		this->addChild( (ITDObject*)(shptr.get()) );
-		shptr->setPosition( location );
-		shptr->scheduleUpdateWithPriority( 2 ); 
+		ptr->setPosition( location );
+		ptr->setAI( IAiMgr::GetSingletonPtr()->GetAi( "Acttack" ) );
+		ptr->scheduleUpdateWithPriority( 2 ); 
 	}	
 }
 

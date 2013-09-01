@@ -3,6 +3,7 @@
 #include "interfacedef.h"
 
 NAMESPACE_TD_BEGIN
+
 typedef enum emRotateDirection{
 		COUNTERCLOCKWISE,
 		CLOCKWISE,
@@ -12,35 +13,36 @@ class ISkill : public ITDObject
 {
 	ISkill( const String& strType );
 public:
+	~ISkill();
 	static const String strTypeSkill;
 
 	virtual void ChangeState( const String& strState ){}
 
 	virtual void update(  float dt );
 
-//	static ITDObject* create( const String& strName, TDObjectWeakPtr source );
+	static ISkill* create( const String& strName, ITDObject* source, ITDObject* target );
 
-	static ITDObject* create( const String& strName, TDObjectWeakPtr source, TDObjectWeakPtr target );
-
-//	static ITDObject* create( const String& strName, TDObjectWeakPtr source, CCPoint pt );
+	virtual void End();
 
 protected:
 	RotateDirection calcDirection(CCPoint target);
 	float calcAngle(CCPoint target);
 	void move( CCPoint ptTarget );
-	DEF_MEMBER( TDObjectWeakPtr, m_pSourceObject, SourceObject )
-	DEF_MEMBER( TDObjectWeakPtr, m_pTargetObject, TargetObject )
-	DEF_MEMBER( IPoint, m_ptSpeed, Speed)
+	CC_SYNTHESIZE_RETAIN( ITDObject*, m_pSourceObject, SourceObject )
+	CC_SYNTHESIZE_RETAIN( ITDObject*, m_pTargetObject, TargetObject )
+	CC_SYNTHESIZE( IPoint, m_ptSpeed, Speed)
 	friend class CSkillMgr;
 };
 
 
-typedef weak_ptr<ISkill> SkillWeakPtr;
-typedef shared_ptr<ISkill> SkillSharePtr;
-class CSkillMgr : public IContainer_SharePtr<unsigned int ,ISkill>, public CSingleton<CSkillMgr>
+class CSkillMgr : public CSingleton<CSkillMgr>
 {
 public:
-	bool CreateSkill( const String& strName, TDObjectWeakPtr source, TDObjectWeakPtr target );
-	SkillWeakPtr add( const unsigned int& key, const string& strType );
+	CSkillMgr();
+	~CSkillMgr();
+	ISkill* CreateSkill( const String& strName, ITDObject* source, ITDObject* target );
+	ISkill* GetSkill( const unsigned int& key );
+
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCArray*, m_pSkills, Skills )
 };
 NAMESPACE_TD_END

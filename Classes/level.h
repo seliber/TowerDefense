@@ -6,28 +6,26 @@ NAMESPACE_TD_BEGIN
 class CLevel : public ITDLevel{
 public:
 	CLevel();
+	~CLevel();
 	virtual void update(float delta);
-	virtual bool Start( ILayer* pLayer, TDMapWeakPtr pPath );
+	virtual bool Start( ILayer* pLayer, ITDMap* pMap );
 	virtual bool End();
-	virtual void ObjectFinished( CCNode* pNode );
-	DEF_MEMBER( unsigned int, m_wEnemyCount, EnemyCount)
-	DEF_MEMBER( unsigned int, m_wCurrentIndex, CurrentIndex)
-	DEF_MEMBER( unsigned int, m_wTimeInterval, TimeInterval)
-	DEF_MEMBER( TDMapWeakPtr, m_pMap, Map )
+	CC_SYNTHESIZE( unsigned int, m_wEnemyCount, EnemyCount)
+	CC_SYNTHESIZE( unsigned int, m_wCurrentIndex, CurrentIndex)
+	CC_SYNTHESIZE( unsigned int, m_wTimeInterval, TimeInterval)
+
+	CC_SYNTHESIZE_RETAIN( ITDMap*, m_pMap, Map )
+	CC_SYNTHESIZE_RETAIN( ILayer*, m_pLayer, Layer)
 protected:
 	virtual bool LoadLevel( const String& strFile ){ return false;}
-private:
-	CCLayer* m_pLayer;
 };
 
 class CLevelMgr : public ITDLevelMgr{
 public:
-	virtual bool Ini( const String& strPath ){return false;}
-	virtual TDLevelWeakPtr add( const String& key, const string& strType ){
-		ITDLevel* pLevel = new CLevel();	
-		TDLevelSharePtr ptr(pLevel);
-		m_mapData[key] = ptr;
-		return TDLevelWeakPtr(ptr);
-	}
+	CLevelMgr();
+	~CLevelMgr();
+	virtual bool Ini( const String& strPath );
+	virtual ITDLevel* GetLevel( unsigned int wIndex );
+	CC_SYNTHESIZE_RETAIN( cocos2d::CCArray*, m_pLevels, Levels )
 };
 NAMESPACE_TD_END
